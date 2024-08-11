@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ph_types.h                                         :+:      :+:    :+:   */
+/*   ph_defs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/11 19:40:42 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/11 19:40:42 by tookuyam         ###   ########.fr       */
+/*   Created: 2024/08/12 00:24:47 by tookuyam          #+#    #+#             */
+/*   Updated: 2024/08/12 00:24:47 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PH_TYPES_H
-# define PH_TYPES_H
+#ifndef PH_DEFS_H
+# define PH_DEFS_H
 
-#include <pthread.h>
+// must be < 1000000
+# define TIMER_ACCURACY_USEC 10000
+# define USLEEP_MAX 1000000
 
-typedef struct s_philosopher
-{
-	int				no;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				must_eat_times;
-	pthread_mutex_t fork;
-}	t_philosopher;
-
-typedef struct s_philo_thread_arg
-{
-	t_philosopher	*philos;
-	int				no;
-}
 #endif
