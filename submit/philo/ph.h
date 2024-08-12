@@ -26,6 +26,7 @@ void			ph_destroy_philosopher(t_philosopher *philo);
 void			ph_error_print(const char *str);
 int				ph_putstr(int fd, const char *str);
 int				ph_main(int philo_cnt, t_philosopher *template);
+t_philosopher	*ph_clone_philosopher(t_philosopher *philo);
 int				ph_logging(
 					struct timeval *start_tvp, int no, t_philo_action action);
 
