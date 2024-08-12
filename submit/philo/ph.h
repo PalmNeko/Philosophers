@@ -13,6 +13,7 @@
 #ifndef PH_H
 # define PH_H
 
+#include <sys/time.h>
 #include "ph_types.h"
 
 int				ph_to_int(const char *str, int *num);
@@ -25,5 +26,7 @@ void			ph_destroy_philosopher(t_philosopher *philo);
 void			ph_error_print(const char *str);
 int				ph_putstr(int fd, const char *str);
 int				ph_main(int philo_cnt, t_philosopher *template);
+int				ph_logging(
+					struct timeval *start_tvp, int no, t_philo_action action);
 
 #endif

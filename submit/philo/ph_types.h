@@ -31,4 +31,13 @@ typedef struct s_philo_thread_arg
 	int				no;
 }	t_philo_thread_arg;
 
+typedef enum e_philo_action
+{
+	PH_EAT,
+	PH_PICK_UP,
+	PH_SLEEP,
+	PH_THINK,
+	PH_DIE,
+}	t_philo_action;
+
 #endif
