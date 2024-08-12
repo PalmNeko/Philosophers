@@ -29,5 +29,6 @@ typedef struct s_philo_thread_arg
 {
 	t_philosopher	*philos;
 	int				no;
-}
+}	t_philo_thread_arg;
+
 #endif
