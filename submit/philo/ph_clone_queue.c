@@ -16,7 +16,7 @@
 t_action_queue	*ph_clone_queue(t_action_queue *queue)
 {
 	t_action_queue	*cloned;
-	size_t			index;
+	int				index;
 
 	cloned = ph_new_queue(queue->max_size);
 	if (cloned == NULL)
@@ -27,5 +27,9 @@ t_action_queue	*ph_clone_queue(t_action_queue *queue)
 		cloned->infos[index] = queue->infos[index];
 		index++;
 	}
+	cloned->bottom = queue->bottom;
+	cloned->top = queue->top;
+	cloned->max_size = queue->max_size;
+	cloned->size = queue->size;
 	return (cloned);
 }

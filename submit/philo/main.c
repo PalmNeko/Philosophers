@@ -35,10 +35,14 @@ int	main(int argc, char *argv[])
 		return (ph_error_print("Error: arg format.\n"), ph_print_help(), 1);
 	if (argc != 6)
 		args[4] = -1;
+	manager.action_queue = ph_new_queue(args[0]);
+	if (manager.action_queue == NULL)
+		return (1);
 	manager.time_to_die = args[1];
 	manager.time_to_eat = args[2];
 	manager.time_to_sleep = args[3];
 	manager.must_eat_times = args[4];
 	result = ph_main(args[0], &manager);
+	ph_destroy_queue(manager.action_queue);
 	return (result);
 }

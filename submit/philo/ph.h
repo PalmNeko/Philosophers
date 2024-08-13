@@ -47,5 +47,8 @@ int				ph_enqueue(t_action_queue *queue, int no, t_philo_action action);
 int				ph_dequeue(t_action_queue *queue, t_log_info *info);
 int				ph_enqueue_with_lock(t_action_queue *queue, int no, t_philo_action action);
 int 			ph_dequeue_with_lock(t_action_queue *queue, t_log_info *info);
+t_action_queue	*ph_clone_queue(t_action_queue *queue);
+void			ph_print_log_all_queue(t_action_queue *queue);
+void			*ph_routine_print(t_manager *manager);
 
 #endif

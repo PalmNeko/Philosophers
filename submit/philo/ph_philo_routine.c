@@ -14,6 +14,6 @@
 
 void	*ph_philo_routine(t_philosopher *philo)
 {
-	ph_logging(&philo->common->start, philo->no, PH_DIE);
+	ph_enqueue_with_lock(philo->common->action_queue, philo->no, PH_DIE);
 	return (NULL);
 }
