@@ -19,7 +19,7 @@
 typedef struct	s_ph_common
 {
 	struct timeval	start;
-}	t_ph_common;
+}	t_manager;
 
 typedef struct s_philosopher
 {
@@ -29,7 +29,7 @@ typedef struct s_philosopher
 	int				time_to_sleep;
 	int				must_eat_times;
 	pthread_mutex_t fork;
-	t_ph_common		*common;
+	t_manager		*common;
 }	t_philosopher;
 
 typedef struct s_philo_thread_arg

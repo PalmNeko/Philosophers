@@ -19,7 +19,7 @@
 t_philosopher	*ph_generate_philosophers(
 					t_philosopher *template,
 					int philo_cnt,
-					t_ph_common *common);
+					t_manager *common);
 void			*ph_philo_routine(t_philosopher *philo);
 int				ph_create_philo_threads(
 					pthread_t *threads, t_philosopher *philos, int cnt);
@@ -29,7 +29,7 @@ int	ph_main(int philo_cnt, t_philosopher *template)
 {
 	t_philosopher	*philos;
 	pthread_t		*threads;
-	t_ph_common		common;
+	t_manager		common;
 	int				index;
 	int				error;
 
@@ -59,7 +59,7 @@ int	ph_main(int philo_cnt, t_philosopher *template)
 t_philosopher	*ph_generate_philosophers(
 					t_philosopher *template,
 					int philo_cnt,
-					t_ph_common *common)
+					t_manager *common)
 {
 	t_philosopher	*philos;
 	int				index;
