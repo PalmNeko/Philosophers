@@ -19,6 +19,10 @@
 typedef struct	s_ph_common
 {
 	struct timeval	start;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				must_eat_times;
 }	t_manager;
 
 typedef struct s_philosopher

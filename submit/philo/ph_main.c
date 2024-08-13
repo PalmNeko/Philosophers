@@ -16,27 +16,23 @@
 #include <string.h>
 #include <errno.h>
 
-t_philosopher	*ph_generate_philosophers(
-					t_philosopher *template,
-					int philo_cnt,
-					t_manager *common);
-void			*ph_philo_routine(t_philosopher *philo);
+t_philosopher	*ph_generate_philosophers(int philo_cnt, t_manager *common);
+void			ph_destroy_philosophers(t_philosopher *philos, int cnt);
 int				ph_create_philo_threads(
 					pthread_t *threads, t_philosopher *philos, int cnt);
-void			ph_destroy_philosophers(t_philosopher *philos, int cnt);
+void			*ph_philo_routine(t_philosopher *philo);
 
-int	ph_main(int philo_cnt, t_philosopher *template)
+int	ph_main(int philo_cnt, t_manager *manager)
 {
 	t_philosopher	*philos;
 	pthread_t		*threads;
-	t_manager		common;
 	int				index;
 	int				error;
 
-	philos = ph_generate_philosophers(template, philo_cnt, &common);
+	philos = ph_generate_philosophers(philo_cnt, manager);
 	if (philos == NULL)
 		return (ENOMEM);
-	gettimeofday(&common.start, NULL);
+	gettimeofday(&manager->start, NULL);
 	threads = (pthread_t *)malloc(sizeof(pthread_t) * philo_cnt);
 	if (threads == NULL)
 		return (ph_destroy_philosophers(philos, philo_cnt), ENOMEM);
@@ -56,10 +52,7 @@ int	ph_main(int philo_cnt, t_philosopher *template)
 	return (ph_destroy_philosophers(philos, philo_cnt), free(threads), error);
 }
 
-t_philosopher	*ph_generate_philosophers(
-					t_philosopher *template,
-					int philo_cnt,
-					t_manager *common)
+t_philosopher	*ph_generate_philosophers(int philo_cnt, t_manager *common)
 {
 	t_philosopher	*philos;
 	int				index;
@@ -72,10 +65,6 @@ t_philosopher	*ph_generate_philosophers(
 	while (index < philo_cnt)
 	{
 		philos[index] = (t_philosopher){
-			.time_to_die = template->time_to_die,
-			.time_to_eat = template->time_to_eat,
-			.time_to_sleep = template->time_to_sleep,
-			.must_eat_times = template->time_to_sleep,
 			.common = common,
 			.no = index + 1,
 		};

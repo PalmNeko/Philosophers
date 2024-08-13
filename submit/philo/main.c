@@ -21,7 +21,7 @@ void	ph_print_help(void)
 
 int	main(int argc, char *argv[])
 {
-	t_philosopher	*template_philo;
+	t_manager	*manager;
 	int				args[5];
 	int				result;
 
@@ -35,10 +35,10 @@ int	main(int argc, char *argv[])
 		return (ph_error_print("Error: arg format.\n"), ph_print_help(), 1);
 	if (argc != 6)
 		args[4] = -1;
-	template_philo = ph_new_philosopher(args[1], args[2], args[3], args[4]);
-	if (template_philo == NULL)
+	manager = ph_new_manager(args[1], args[2], args[3], args[4]);
+	if (manager == NULL)
 		return (1);
-	result = ph_main(args[0], template_philo);
-	ph_destroy_philosopher(template_philo);
+	result = ph_main(args[0], manager);
+	ph_destroy_manager(manager);
 	return (result);
 }
