@@ -17,6 +17,7 @@
 #include <errno.h>
 
 t_philosopher	*ph_generate_philosophers(int philo_cnt, t_manager *common);
+int				ph_start(t_philosopher *philos, int philo_cnt);
 
 int	ph_main(int philo_cnt, t_manager *manager)
 {
@@ -29,13 +30,24 @@ int	ph_main(int philo_cnt, t_manager *manager)
 	if (philos == NULL)
 		return (ENOMEM);
 	gettimeofday(&manager->start, NULL);
+	error = ph_start(philos, philo_cnt);
+	ph_destroy_philosophers(philos, philo_cnt);
+	return (error);
+}
+
+int	ph_start(t_philosopher *philos, int philo_cnt)
+{
+	pthread_t		*threads;
+	int				index;
+	int				error;
+
 	threads = (pthread_t *)malloc(sizeof(pthread_t) * philo_cnt);
 	if (threads == NULL)
-		return (ph_destroy_philosophers(philos, philo_cnt), ENOMEM);
+		return (ENOMEM);
 	error = 0;
 	error = ph_create_philo_threads(threads, philos, philo_cnt);
 	if (error != 0)
-		return (ph_destroy_philosophers(philos, philo_cnt), free(threads), error);
+		return (free(threads), error);
 	index = 0;
 	while (index < philo_cnt)
 	{
@@ -45,7 +57,8 @@ int	ph_main(int philo_cnt, t_manager *manager)
 			error = pthread_detach(threads[index]);
 		index++;
 	}
-	return (ph_destroy_philosophers(philos, philo_cnt), free(threads), error);
+	free(threads);
+	return (error);
 }
 
 t_philosopher	*ph_generate_philosophers(int philo_cnt, t_manager *common)
