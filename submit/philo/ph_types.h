@@ -16,6 +16,8 @@
 #include <sys/time.h>
 #include <pthread.h>
 
+typedef struct s_action_queue t_action_queue;
+
 typedef struct	s_ph_common
 {
 	struct timeval	start;
@@ -23,6 +25,7 @@ typedef struct	s_ph_common
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat_times;
+	t_action_queue	*action_queue;
 }	t_manager;
 
 typedef struct s_philosopher
@@ -51,5 +54,22 @@ typedef enum e_philo_action
 	PH_THINK,
 	PH_DIE,
 }	t_philo_action;
+
+typedef struct s_log_info
+{
+	int				no;
+	struct timeval	tv;
+	t_philo_action	action;
+}	t_log_info;
+
+struct s_action_queue
+{
+	t_log_info		*infos;
+	int				top;
+	int				bottom;
+	int				size;
+	int				max_size;
+	pthread_mutex_t	lock;
+};
 
 #endif

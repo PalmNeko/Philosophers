@@ -22,8 +22,6 @@ int				ph_start(t_philosopher *philos, int philo_cnt);
 int	ph_main(int philo_cnt, t_manager *manager)
 {
 	t_philosopher	*philos;
-	pthread_t		*threads;
-	int				index;
 	int				error;
 
 	philos = ph_generate_philosophers(philo_cnt, manager);

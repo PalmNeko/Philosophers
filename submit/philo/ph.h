@@ -41,4 +41,11 @@ int				ph_create_philo_threads(
 					pthread_t *threads, t_philosopher *philos, int cnt);
 void			*ph_philo_routine(t_philosopher *philo);
 
+void			ph_destroy_queue(t_action_queue *queue);
+t_action_queue	*ph_new_queue(int init_size);
+int				ph_enqueue(t_action_queue *queue, int no, t_philo_action action);
+int				ph_dequeue(t_action_queue *queue, t_log_info *info);
+int				ph_enqueue_with_lock(t_action_queue *queue, int no, t_philo_action action);
+int 			ph_dequeue_with_lock(t_action_queue *queue, t_log_info *info);
+
 #endif
