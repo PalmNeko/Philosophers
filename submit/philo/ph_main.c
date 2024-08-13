@@ -17,10 +17,6 @@
 #include <errno.h>
 
 t_philosopher	*ph_generate_philosophers(int philo_cnt, t_manager *common);
-void			ph_destroy_philosophers(t_philosopher *philos, int cnt);
-int				ph_create_philo_threads(
-					pthread_t *threads, t_philosopher *philos, int cnt);
-void			*ph_philo_routine(t_philosopher *philo);
 
 int	ph_main(int philo_cnt, t_manager *manager)
 {
@@ -72,49 +68,4 @@ t_philosopher	*ph_generate_philosophers(int philo_cnt, t_manager *common)
 		index++;
 	}
 	return (philos);
-}
-
-void	ph_destroy_philosophers(t_philosopher *philos, int cnt)
-{
-	int	index;
-
-	index = 0;
-	while (index < cnt)
-	{
-		pthread_mutex_destroy(&philos[index].fork);
-		index++;
-	}
-	free(philos);
-	return ;
-}
-
-int	ph_create_philo_threads(pthread_t *threads, t_philosopher *philos, int cnt)
-{
-	int	index;
-	int	error;
-
-	index = 0;
-	while (index < cnt)
-	{
-		error = 0;
-		error = pthread_create(&threads[index],
-				NULL,
-				(void *(*)(void *))ph_philo_routine,
-				&philos[index]);
-		if (error != 0)
-		{
-			index -= 1;
-			while (index > 0)
-				pthread_detach(threads[index--]);
-			return (error);
-		}
-		index++;
-	}
-	return (0);
-}
-
-void	*ph_philo_routine(t_philosopher *philo)
-{
-	ph_logging(&philo->common->start, philo->no, PH_DIE);
-	return (NULL);
 }
