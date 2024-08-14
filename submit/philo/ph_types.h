@@ -34,10 +34,6 @@ typedef struct	s_ph_common
 typedef struct s_philosopher
 {
 	int				no;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				must_eat_times;
 	pthread_mutex_t fork;
 	t_manager		*common;
 }	t_philosopher;
