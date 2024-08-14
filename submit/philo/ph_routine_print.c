@@ -12,17 +12,19 @@
 
 #include "ph.h"
 #include <pthread.h>
+#include <unistd.h>
 
 void	*ph_routine_print(t_manager *manager)
 {
 	t_action_queue	*cloned;
 	t_log_info		del_info;
+	struct timeval	start;
 	int				error;
 
 	while (manager->in_process)
 	{
-		while (manager->action_queue->size <= 0 && manager->in_process)
-			;
+		if (manager->action_queue->size <= 100 && manager->in_process)
+			ph_msleep(5);
 		error = pthread_mutex_lock(&manager->action_queue->lock);
 		if (error != 0)
 			return (NULL);
@@ -35,7 +37,8 @@ void	*ph_routine_print(t_manager *manager)
 		error = pthread_mutex_unlock(&manager->action_queue->lock);
 		if (cloned == NULL || error != 0)
 			return (NULL);
-		ph_print_log_all_queue(cloned);
+		start = manager->start;
+		ph_print_log_all_queue(&start, cloned);
 		ph_destroy_queue(cloned);
 	}
 	return (NULL);

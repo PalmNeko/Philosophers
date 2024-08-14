@@ -27,8 +27,7 @@ void			ph_error_print(const char *str);
 int				ph_putstr(int fd, const char *str);
 int				ph_main(int philo_cnt, t_manager *manager);
 t_philosopher	*ph_clone_philosopher(t_philosopher *philo);
-int				ph_logging(
-					struct timeval *start_tvp, int no, t_philo_action action);
+int	ph_logging(struct timeval *start_tvp, t_log_info *info);
 t_manager		*ph_new_manager(
 					int time_to_die,
 					int time_to_eat,
@@ -48,7 +47,8 @@ int				ph_dequeue(t_action_queue *queue, t_log_info *info);
 int				ph_enqueue_with_lock(t_action_queue *queue, int no, t_philo_action action);
 int 			ph_dequeue_with_lock(t_action_queue *queue, t_log_info *info);
 t_action_queue	*ph_clone_queue(t_action_queue *queue);
-void			ph_print_log_all_queue(t_action_queue *queue);
+void			ph_print_log_all_queue(struct timeval *from_tv, t_action_queue *queue);
 void			*ph_routine_print(t_manager *manager);
+int				ph_msleep(unsigned int msec);
 
 #endif
