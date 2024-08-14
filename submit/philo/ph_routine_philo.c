@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ph_philo_routine.c                                 :+:      :+:    :+:   */
+/*   ph_routine_philo.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "ph.h"
 
-void	*ph_philo_routine(t_philosopher *philo)
+void	*ph_routine_philo(t_philosopher *philo)
 {
 	ph_enqueue_with_lock(philo->common->action_queue, philo->no, PH_DIE);
 	return (NULL);

@@ -23,7 +23,7 @@ int	ph_create_philo_threads(pthread_t *threads, t_philosopher *philos, int cnt)
 		error = 0;
 		error = pthread_create(&threads[index],
 				NULL,
-				(void *(*)(void *))ph_philo_routine,
+				(void *(*)(void *))ph_routine_philo,
 				&philos[index]);
 		if (error != 0)
 		{

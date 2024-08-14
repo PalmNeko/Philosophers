@@ -34,11 +34,11 @@ t_manager		*ph_new_manager(
 					int time_to_sleep,
 					int must_eat_times);
 void			ph_destroy_manager(t_manager *manager);
-void			*ph_philo_routine(t_philosopher *philo);
+void			*ph_routine_philo(t_philosopher *philo);
 void			ph_destroy_philosophers(t_philosopher *philos, int cnt);
 int				ph_create_philo_threads(
 					pthread_t *threads, t_philosopher *philos, int cnt);
-void			*ph_philo_routine(t_philosopher *philo);
+void			*ph_routine_philo(t_philosopher *philo);
 
 void			ph_destroy_queue(t_action_queue *queue);
 t_action_queue	*ph_new_queue(int init_size);
