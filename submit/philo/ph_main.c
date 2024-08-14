@@ -29,12 +29,19 @@ int	ph_main(int philo_cnt, t_manager *manager)
 	if (philos == NULL)
 		return (ENOMEM);
 	gettimeofday(&manager->start, NULL);
+	manager->in_process = true;
+	pthread_mutex_init(&manager->lock, NULL);
 	pthread_create(&print_thread,
 				NULL,
 				(void *(*)(void *))ph_routine_print,
 				manager);
-	pthread_detach(print_thread);
 	error = ph_start(philos, philo_cnt);
+	if (pthread_mutex_lock(&manager->lock) == 0)
+	{
+		manager->in_process = false;
+		pthread_mutex_unlock(&manager->lock);
+	};
+	pthread_join(print_thread, NULL);
 	ph_destroy_philosophers(philos, philo_cnt);
 	return (error);
 }

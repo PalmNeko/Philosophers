@@ -19,9 +19,9 @@ void	*ph_routine_print(t_manager *manager)
 	t_log_info		del_info;
 	int				error;
 
-	while (1)
+	while (manager->in_process)
 	{
-		while (manager->action_queue->size <= 0)
+		while (manager->action_queue->size <= 0 && manager->in_process)
 			;
 		error = pthread_mutex_lock(&manager->action_queue->lock);
 		if (error != 0)

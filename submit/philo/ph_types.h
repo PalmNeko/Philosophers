@@ -15,6 +15,7 @@
 
 #include <sys/time.h>
 #include <pthread.h>
+#include <stdbool.h>
 
 typedef struct s_action_queue t_action_queue;
 
@@ -26,6 +27,8 @@ typedef struct	s_ph_common
 	int				time_to_sleep;
 	int				must_eat_times;
 	t_action_queue	*action_queue;
+	bool			in_process;
+	pthread_mutex_t	lock;
 }	t_manager;
 
 typedef struct s_philosopher
