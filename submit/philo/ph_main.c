@@ -22,7 +22,6 @@ int				ph_start(t_philosopher *philos, int philo_cnt);
 int	ph_main(int philo_cnt, t_manager *manager)
 {
 	t_philosopher	*philos;
-	pthread_t		print_thread;
 	int				error;
 
 	philos = ph_generate_philosophers(philo_cnt, manager);
@@ -31,17 +30,8 @@ int	ph_main(int philo_cnt, t_manager *manager)
 	gettimeofday(&manager->start, NULL);
 	manager->in_process = true;
 	pthread_mutex_init(&manager->lock, NULL);
-	pthread_create(&print_thread,
-				NULL,
-				(void *(*)(void *))ph_routine_print,
-				manager);
 	error = ph_start(philos, philo_cnt);
-	if (pthread_mutex_lock(&manager->lock) == 0)
-	{
-		manager->in_process = false;
-		pthread_mutex_unlock(&manager->lock);
-	};
-	pthread_join(print_thread, NULL);
+
 	ph_destroy_philosophers(philos, philo_cnt);
 	return (error);
 }
@@ -49,6 +39,8 @@ int	ph_main(int philo_cnt, t_manager *manager)
 int	ph_start(t_philosopher *philos, int philo_cnt)
 {
 	pthread_t		*threads;
+	pthread_t		print_thread;
+	t_manager		*manager;
 	int				index;
 	int				error;
 
@@ -59,6 +51,11 @@ int	ph_start(t_philosopher *philos, int philo_cnt)
 	error = ph_create_philo_threads(threads, philos, philo_cnt);
 	if (error != 0)
 		return (free(threads), error);
+	pthread_create(&print_thread,
+				NULL,
+				(void *(*)(void *))ph_routine_print,
+				philos[0].common);
+	manager = philos[0].common;
 	index = 0;
 	while (index < philo_cnt)
 	{
@@ -68,6 +65,12 @@ int	ph_start(t_philosopher *philos, int philo_cnt)
 			error = pthread_detach(threads[index]);
 		index++;
 	}
+	if (pthread_mutex_lock(&manager->lock) == 0)
+	{
+		manager->in_process = false;
+		pthread_mutex_unlock(&manager->lock);
+	};
+	pthread_join(print_thread, NULL);
 	free(threads);
 	return (error);
 }
