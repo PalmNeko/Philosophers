@@ -17,11 +17,7 @@
 #include "ph_types.h"
 
 int				ph_to_int(const char *str, int *num);
-t_philosopher	*ph_new_philosopher(
-					int time_to_die,
-					int time_to_eat,
-					int time_to_sleep,
-					int must_eat_times);
+t_philosopher	*ph_new_philosopher(void);
 void			ph_destroy_philosopher(t_philosopher *philo);
 void			ph_error_print(const char *str);
 int				ph_putstr(int fd, const char *str);
@@ -50,5 +46,6 @@ t_action_queue	*ph_clone_queue(t_action_queue *queue);
 void			ph_print_log_all_queue(struct timeval *from_tv, t_action_queue *queue);
 void			*ph_routine_print(t_manager *manager);
 int				ph_msleep(unsigned int msec);
+void			ph_act_log(t_philosopher *philo, t_philo_action action);
 
 #endif

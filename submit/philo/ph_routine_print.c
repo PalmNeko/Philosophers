@@ -23,7 +23,7 @@ void	*ph_routine_print(t_manager *manager)
 
 	while (manager->in_process)
 	{
-		if (manager->action_queue->size <= 100 && manager->in_process)
+		if (manager->action_queue->size <= 1 && manager->in_process)
 			ph_msleep(5);
 		error = pthread_mutex_lock(&manager->action_queue->lock);
 		if (error != 0)

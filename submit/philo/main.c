@@ -35,7 +35,7 @@ int	main(int argc, char *argv[])
 		return (ph_error_print("Error: arg format.\n"), ph_print_help(), 1);
 	if (argc != 6)
 		args[4] = -1;
-	manager.action_queue = ph_new_queue(args[0]);
+	manager.action_queue = ph_new_queue(args[0] * 10);
 	if (manager.action_queue == NULL)
 		return (1);
 	manager.time_to_die = args[1];

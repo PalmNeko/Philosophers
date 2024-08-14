@@ -18,6 +18,7 @@
 #include <stdbool.h>
 
 typedef struct s_action_queue t_action_queue;
+typedef struct s_philosopher	t_philosopher;
 
 typedef struct	s_ph_common
 {
@@ -26,17 +27,19 @@ typedef struct	s_ph_common
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat_times;
+	int				philo_cnt;
 	t_action_queue	*action_queue;
+	t_philosopher	*philos;
 	bool			in_process;
 	pthread_mutex_t	lock;
 }	t_manager;
 
-typedef struct s_philosopher
+struct s_philosopher
 {
 	int				no;
 	pthread_mutex_t fork;
 	t_manager		*common;
-}	t_philosopher;
+};
 
 typedef struct s_philo_thread_arg
 {

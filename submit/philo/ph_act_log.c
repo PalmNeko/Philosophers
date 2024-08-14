@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ph_new_philosopher.c                               :+:      :+:    :+:   */
+/*   ph_act_philo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/11 19:47:47 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/11 19:47:47 by tookuyam         ###   ########.fr       */
+/*   Created: 2024/08/14 16:51:59 by tookuyam          #+#    #+#             */
+/*   Updated: 2024/08/14 16:51:59 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ph_types.h"
-#include <stdlib.h>
+#include "ph.h"
+#include <stdio.h>
 
-/**
- * @param must_eat_times negative: unlimited
- */
-t_philosopher	*ph_new_philosopher(void)
+void	ph_act_log(t_philosopher *philo, t_philo_action action)
 {
-	t_philosopher	*philo;
-
-	philo = (t_philosopher *)malloc(sizeof(t_philosopher));
-	if (philo == NULL)
-		return (NULL);
-	return (philo);
+	ph_enqueue_with_lock(philo->common->action_queue, philo->no, action);
 }
