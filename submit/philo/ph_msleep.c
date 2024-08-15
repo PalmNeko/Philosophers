@@ -16,50 +16,66 @@
 
 unsigned int	ph_timertomsc(struct timeval *tvp);
 struct timeval	ph_msectotimeval(unsigned int timesec);
-int				ph_wait_until(struct timeval *tvp);
+int				ph_wait_once(struct timeval *nowtvp, struct timeval *endtvp);
+unsigned int	ph_calc_wait_time(struct timeval *subtvp);
 
 int	ph_msleep(unsigned int msec)
 {
 	struct timeval	start;
+	struct timeval	now;
 	struct timeval	diff;
 	struct timeval	endtime;
 
 	gettimeofday(&start, NULL);
 	diff = ph_msectotimeval(msec);
 	timeradd(&start, &diff, &endtime);
-	if (ph_wait_until(&endtime) == -1)
-		return (-1);
+	now = start;
+	while(timercmp(&now, &endtime, <))
+	{
+		if (ph_wait_once(&now, &endtime) == -1)
+			return (-1);
+		gettimeofday(&now, NULL);
+	}
 	return (0);
 }
 
 /**
  * the usleep has accuracy so `usleep(sleep_time_usec - TIMER_ACCURACY_USEC)`
  */
-int	ph_wait_until(struct timeval *endtvp)
+
+int ph_wait_once(struct timeval *nowtvp, struct timeval *endtvp)
 {
-	struct timeval	now;
 	struct timeval	sub;
 	unsigned int	sleep_time_usec;
 
-	gettimeofday(&now, NULL);
-	while (timercmp(&now, endtvp, < ))
+	if (timercmp(nowtvp, endtvp, <))
 	{
-		timersub(endtvp, &now, &sub);
-		if (sub.tv_sec >= 2)
-			sleep_time_usec = 1000000 + TIMER_ACCURACY_USEC;
-		else
-			sleep_time_usec = sub.tv_sec * 1000000 + sub.tv_usec;
-		if (sleep_time_usec > 1000000 + TIMER_ACCURACY_USEC)
-			sleep_time_usec = 1000000;
-		else if (sleep_time_usec > TIMER_ACCURACY_USEC)
-			sleep_time_usec = sleep_time_usec - TIMER_ACCURACY_USEC;
-		else
-			sleep_time_usec = 0;
-		if (usleep(sleep_time_usec) == -1)
-			return (-1);
-		gettimeofday(&now, NULL);
+		timersub(endtvp, nowtvp, &sub);
+		sleep_time_usec = ph_calc_wait_time(&sub);
+		return (usleep(sleep_time_usec));
 	}
 	return (0);
+}
+
+/**
+ * TODO: If remove sleep_time_usec variable more fast than no-remove one,
+ * you should remove it.
+ */
+unsigned int	ph_calc_wait_time(struct timeval *subtvp)
+{
+	unsigned int	sleep_time_usec;
+
+	if (subtvp->tv_sec >= 2)
+		sleep_time_usec = 1000000 + TIMER_ACCURACY_USEC;
+	else
+		sleep_time_usec = subtvp->tv_sec * 1000000 + subtvp->tv_usec;
+	if (sleep_time_usec > 1000000 + TIMER_ACCURACY_USEC)
+		sleep_time_usec = 1000000;
+	else if (sleep_time_usec > TIMER_ACCURACY_USEC)
+		sleep_time_usec = sleep_time_usec - TIMER_ACCURACY_USEC;
+	else
+		sleep_time_usec = 0;
+	return (sleep_time_usec);
 }
 
 struct timeval	ph_msectotimeval(unsigned int timesec)
