@@ -50,15 +50,13 @@ int	ph_wait_until(struct timeval *endtvp)
 		else
 			sleep_time_usec = sub.tv_sec * 1000000 + sub.tv_usec;
 		if (sleep_time_usec > 1000000 + TIMER_ACCURACY_USEC)
-		{
-			if (usleep(1000000) == -1)
-				return (-1);
-		}
+			sleep_time_usec = 1000000;
 		else if (sleep_time_usec > TIMER_ACCURACY_USEC)
-		{
-			if (usleep(sleep_time_usec - TIMER_ACCURACY_USEC) == -1)
-				return (-1);
-		}
+			sleep_time_usec = sleep_time_usec - TIMER_ACCURACY_USEC;
+		else
+			sleep_time_usec = 0;
+		if (usleep(sleep_time_usec) == -1)
+			return (-1);
 		gettimeofday(&now, NULL);
 	}
 	return (0);

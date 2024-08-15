@@ -34,7 +34,7 @@ int	main(int argc, char *argv[])
 		return (ph_print_error("Error: arg format.\n"), ph_print_help(), 1);
 	if (argc != 6)
 		manager.must_eat_times = -1;
-	manager.action_queue = ph_new_queue(manager.philo_cnt * 10);
+	manager.action_queue = ph_new_queue(manager.philo_cnt * 2);
 	if (manager.action_queue == NULL)
 		return (1);
 	result = ph_main(&manager);
