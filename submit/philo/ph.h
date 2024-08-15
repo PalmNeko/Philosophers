@@ -17,19 +17,10 @@
 #include "ph_types.h"
 
 int				ph_to_int(const char *str, int *num);
-t_philosopher	*ph_new_philosopher(void);
-void			ph_destroy_philosopher(t_philosopher *philo);
 void			ph_error_print(const char *str);
 int				ph_putstr(int fd, const char *str);
 int				ph_main(t_manager *manager);
-t_philosopher	*ph_clone_philosopher(t_philosopher *philo);
 int	ph_logging(struct timeval *start_tvp, t_log_info *info);
-t_manager		*ph_new_manager(
-					int time_to_die,
-					int time_to_eat,
-					int time_to_sleep,
-					int must_eat_times);
-void			ph_destroy_manager(t_manager *manager);
 void			*ph_routine_philo(t_philosopher *philo);
 void			ph_destroy_philosophers(t_philosopher *philos, int cnt);
 int				ph_create_philo_threads(
