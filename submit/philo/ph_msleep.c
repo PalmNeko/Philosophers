@@ -12,6 +12,7 @@
 
 #include <unistd.h>
 #include <sys/time.h>
+#include "ph_types.h"
 #include "ph_defs.h"
 
 unsigned int	ph_timertomsc(struct timeval *tvp);
@@ -19,7 +20,7 @@ struct timeval	ph_msectotimeval(unsigned int timesec);
 int				ph_wait_once(struct timeval *nowtvp, struct timeval *endtvp);
 unsigned int	ph_calc_wait_time(struct timeval *subtvp);
 
-int	ph_msleep(unsigned int msec)
+int	ph_msleep(unsigned int msec, t_manager *manager)
 {
 	struct timeval	start;
 	struct timeval	now;
@@ -30,7 +31,8 @@ int	ph_msleep(unsigned int msec)
 	diff = ph_msectotimeval(msec);
 	timeradd(&start, &diff, &endtime);
 	now = start;
-	while(timercmp(&now, &endtime, <))
+	gettimeofday(&now, NULL);
+	while(timercmp(&now, &endtime, <) && manager->in_process)
 	{
 		if (ph_wait_once(&now, &endtime) == -1)
 			return (-1);

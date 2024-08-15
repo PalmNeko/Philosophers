@@ -18,6 +18,7 @@
 
 t_philosopher	*ph_generate_philosophers(t_manager *manager);
 int				ph_start(t_manager *manager, t_philosopher *philos);
+int				ph_philo_start(t_manager *manager, t_philosopher *philos);
 
 int	ph_main(t_manager *manager)
 {
@@ -29,6 +30,7 @@ int	ph_main(t_manager *manager)
 		return (ENOMEM);
 	manager->philos = philos;
 	gettimeofday(&manager->start, NULL);
+	gettimeofday(&manager->now, NULL);
 	manager->in_process = true;
 	pthread_mutex_init(&manager->lock, NULL);
 	error = ph_start(manager, philos);
@@ -38,8 +40,28 @@ int	ph_main(t_manager *manager)
 
 int	ph_start(t_manager *manager, t_philosopher *philos)
 {
-	pthread_t		*threads;
 	pthread_t		print_thread;
+	pthread_t		update_thread;
+	int				error;
+
+	pthread_create(&print_thread, NULL,
+		(void *(*)(void *))ph_routine_print, manager);
+	pthread_create(&update_thread, NULL,
+		(void *(*)(void *))ph_routine_update_manager, manager);
+	error = ph_philo_start(manager, philos);
+	if (error != 0)
+		return (error);
+	pthread_mutex_lock(&manager->lock);
+	manager->in_process = false;
+	pthread_mutex_unlock(&manager->lock);
+	pthread_join(print_thread, NULL);
+	pthread_join(update_thread, NULL);
+	return (0);
+}
+
+int	ph_philo_start(t_manager *manager, t_philosopher *philos)
+{
+	pthread_t		*threads;
 	int				index;
 	int				error;
 
@@ -49,15 +71,9 @@ int	ph_start(t_manager *manager, t_philosopher *philos)
 	error = ph_create_philo_threads(threads, philos, manager->philo_cnt);
 	if (error != 0)
 		return (free(threads), error);
-	pthread_create(&print_thread, NULL,
-		(void *(*)(void *))ph_routine_print, manager);
 	index = 0;
 	while (index < manager->philo_cnt)
 		pthread_join(threads[index++], NULL);
-	pthread_mutex_lock(&manager->lock);
-	manager->in_process = false;
-	pthread_mutex_unlock(&manager->lock);
-	pthread_join(print_thread, NULL);
 	free(threads);
 	return (0);
 }

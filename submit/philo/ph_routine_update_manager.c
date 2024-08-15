@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ph_print_error.c                                   :+:      :+:    :+:   */
+/*   ph_routine_update_manager.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/11 20:56:51 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/11 20:56:51 by tookuyam         ###   ########.fr       */
+/*   Created: 2024/08/15 17:14:13 by tookuyam          #+#    #+#             */
+/*   Updated: 2024/08/15 17:14:13 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ph_types.h"
+#include <sys/time.h>
 #include <unistd.h>
 
-void	ph_print_error(const char *str)
+void	*ph_routine_update_manager(t_manager *manager)
 {
-	int		size;
-	ssize_t	len;
-
-	size = 0;
-	while (str[size] != '\0')
-		size++;
-	len = write(2, str, size);
-	if (len == -1)
-		return ;
-	return ;
+	while (manager->in_process)
+	{
+		gettimeofday(&manager->now, NULL);
+		if (usleep(0) == -1)
+		{
+			pthread_mutex_lock(&manager->lock);
+			manager->in_process = false;
+			pthread_mutex_unlock(&manager->lock);
+			return (NULL);
+		}
+	}
+	return (NULL);
 }

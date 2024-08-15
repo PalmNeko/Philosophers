@@ -26,6 +26,7 @@ typedef struct s_log_info			t_log_info;
 struct	s_ph_manager
 {
 	struct timeval	start;
+	struct timeval	now;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
