@@ -13,7 +13,7 @@
 #include "ph.h"
 #include <pthread.h>
 
-int ph_dequeue_with_lock(t_action_queue *queue, t_log_info *info)
+int	ph_dequeue_with_lock(t_action_queue *queue, t_log_info *info)
 {
 	int			error;
 	int			result;

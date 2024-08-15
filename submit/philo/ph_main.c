@@ -47,14 +47,11 @@ int	ph_start(t_philosopher *philos, int philo_cnt)
 	threads = (pthread_t *)malloc(sizeof(pthread_t) * philo_cnt);
 	if (threads == NULL)
 		return (ENOMEM);
-	error = 0;
 	error = ph_create_philo_threads(threads, philos, philo_cnt);
 	if (error != 0)
 		return (free(threads), error);
-	pthread_create(&print_thread,
-				NULL,
-				(void *(*)(void *))ph_routine_print,
-				philos[0].manager);
+	pthread_create(&print_thread, NULL,
+		(void *(*)(void *))ph_routine_print, philos[0].manager);
 	manager = philos[0].manager;
 	index = 0;
 	while (index < philo_cnt)
@@ -64,7 +61,7 @@ int	ph_start(t_philosopher *philos, int philo_cnt)
 	pthread_mutex_unlock(&manager->lock);
 	pthread_join(print_thread, NULL);
 	free(threads);
-	return (error);
+	return (0);
 }
 
 t_philosopher	*ph_generate_philosophers(int philo_cnt, t_manager *common)

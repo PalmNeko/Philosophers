@@ -19,7 +19,7 @@ t_action_queue	*ph_new_queue(int init_size)
 {
 	t_action_queue	*queue;
 
-	queue = (t_action_queue	*)malloc(sizeof(t_action_queue));
+	queue = (t_action_queue *)malloc(sizeof(t_action_queue));
 	if (queue == NULL)
 		return (NULL);
 	memset(queue, 0, sizeof(t_action_queue));

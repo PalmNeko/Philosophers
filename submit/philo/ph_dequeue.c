@@ -14,7 +14,6 @@
 
 int	ph_dequeue(t_action_queue *queue, t_log_info *info)
 {
-
 	if (queue->size == 0)
 		return (-1);
 	*info = queue->infos[queue->top];

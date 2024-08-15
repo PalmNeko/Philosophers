@@ -29,11 +29,8 @@ void	*ph_routine_print(t_manager *manager)
 		if (error != 0)
 			return (NULL);
 		cloned = ph_clone_queue(manager->action_queue);
-		if (cloned != NULL)
-		{
-			while (manager->action_queue->size > 0)
-				ph_dequeue(manager->action_queue, &del_info);
-		}
+		while (cloned != NULL && manager->action_queue->size > 0)
+			ph_dequeue(manager->action_queue, &del_info);
 		error = pthread_mutex_unlock(&manager->action_queue->lock);
 		if (cloned == NULL || error != 0)
 			return (NULL);

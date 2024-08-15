@@ -47,5 +47,7 @@ void			ph_print_log_all_queue(struct timeval *from_tv, t_action_queue *queue);
 void			*ph_routine_print(t_manager *manager);
 int				ph_msleep(unsigned int msec);
 void			ph_act_log(t_philosopher *philo, t_philo_action action);
-
+void			ph_think(t_philosopher *philo);
+void			ph_eat(t_philosopher *philo);
+void			ph_sleep(t_philosopher *philo);
 #endif
