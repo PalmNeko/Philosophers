@@ -13,14 +13,18 @@
 #ifndef PH_TYPES_H
 # define PH_TYPES_H
 
-#include <sys/time.h>
-#include <pthread.h>
-#include <stdbool.h>
+# include <sys/time.h>
+# include <pthread.h>
+# include <stdbool.h>
 
-typedef struct s_action_queue t_action_queue;
-typedef struct s_philosopher	t_philosopher;
+typedef struct s_action_queue		t_action_queue;
+typedef struct s_philosopher		t_philosopher;
+typedef struct s_ph_common			t_manager;
+typedef struct s_philo_thread_arg	t_philo_thread_arg;
+typedef enum e_philo_action			t_philo_action;
+typedef struct s_log_info			t_log_info;
 
-typedef struct	s_ph_common
+struct	s_ph_common
 {
 	struct timeval	start;
 	int				time_to_die;
@@ -32,37 +36,37 @@ typedef struct	s_ph_common
 	t_philosopher	*philos;
 	bool			in_process;
 	pthread_mutex_t	lock;
-}	t_manager;
+};
 
 struct s_philosopher
 {
 	int				no;
-	pthread_mutex_t fork;
+	pthread_mutex_t	fork;
 	t_manager		*manager;
 };
 
-typedef struct s_philo_thread_arg
+struct s_philo_thread_arg
 {
 	t_philosopher	*philos;
 
 	int				no;
-}	t_philo_thread_arg;
+};
 
-typedef enum e_philo_action
+enum e_philo_action
 {
 	PH_EAT,
 	PH_PICK_UP,
 	PH_SLEEP,
 	PH_THINK,
 	PH_DIE,
-}	t_philo_action;
+};
 
-typedef struct s_log_info
+struct s_log_info
 {
 	int				no;
 	struct timeval	tv;
 	t_philo_action	action;
-}	t_log_info;
+};
 
 struct s_action_queue
 {
