@@ -20,7 +20,6 @@
 typedef struct s_action_queue		t_action_queue;
 typedef struct s_philosopher		t_philosopher;
 typedef struct s_ph_common			t_manager;
-typedef struct s_philo_thread_arg	t_philo_thread_arg;
 typedef enum e_philo_action			t_philo_action;
 typedef struct s_log_info			t_log_info;
 
@@ -43,13 +42,6 @@ struct s_philosopher
 	int				no;
 	pthread_mutex_t	fork;
 	t_manager		*manager;
-};
-
-struct s_philo_thread_arg
-{
-	t_philosopher	*philos;
-
-	int				no;
 };
 
 enum e_philo_action
