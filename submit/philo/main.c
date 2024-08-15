@@ -37,7 +37,7 @@ int	main(int argc, char *argv[])
 	manager.action_queue = ph_new_queue(manager.philo_cnt * 10);
 	if (manager.action_queue == NULL)
 		return (1);
-	result = ph_main(manager.philo_cnt, &manager);
+	result = ph_main(&manager);
 	ph_destroy_queue(manager.action_queue);
 	return (result);
 }
