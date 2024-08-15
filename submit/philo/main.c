@@ -28,20 +28,16 @@ int	main(int argc, char *argv[])
 	if (argc != 5 && argc != 6)
 		return (ph_print_help(), 1);
 	if (ph_to_int(argv[1], &args[0]) != 0
-		|| ph_to_int(argv[2], &args[1]) != 0
-		|| ph_to_int(argv[3], &args[2]) != 0
-		|| ph_to_int(argv[4], &args[3]) != 0
-		|| (argc == 6 && ph_to_int(argv[5], &args[4]) != 0))
+		|| ph_to_int(argv[2], &manager.time_to_die) != 0
+		|| ph_to_int(argv[3], &manager.time_to_eat) != 0
+		|| ph_to_int(argv[4], &manager.time_to_sleep) != 0
+		|| (argc == 6 && ph_to_int(argv[5], &manager.must_eat_times) != 0))
 		return (ph_error_print("Error: arg format.\n"), ph_print_help(), 1);
 	if (argc != 6)
-		args[4] = -1;
+		manager.must_eat_times = -1;
 	manager.action_queue = ph_new_queue(args[0] * 10);
 	if (manager.action_queue == NULL)
 		return (1);
-	manager.time_to_die = args[1];
-	manager.time_to_eat = args[2];
-	manager.time_to_sleep = args[3];
-	manager.must_eat_times = args[4];
 	result = ph_main(args[0], &manager);
 	ph_destroy_queue(manager.action_queue);
 	return (result);
