@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ph_error_print.c                                   :+:      :+:    :+:   */
+/*   ph_act_philo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/11 20:56:51 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/11 20:56:51 by tookuyam         ###   ########.fr       */
+/*   Created: 2024/08/14 16:51:59 by tookuyam          #+#    #+#             */
+/*   Updated: 2024/08/14 16:51:59 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "ph.h"
+#include <stdio.h>
 
-void	ph_error_print(const char *str)
+void	ph_append_log(t_philosopher *philo, t_philo_action action)
 {
-	int	size;
-
-	size = 0;
-	while (str[size] != '\0')
-		size++;
-	write(2, str, size);
-	return ;
+	ph_enqueue_with_lock(philo->manager->action_queue, philo->no, action);
 }

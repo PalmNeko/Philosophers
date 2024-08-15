@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ph_logging.c                                       :+:      :+:    :+:   */
+/*   ph_print_log.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -15,7 +15,7 @@
 #include <sys/time.h>
 #include "ph_types.h"
 
-int	ph_logging(struct timeval *start_tvp, t_log_info *info)
+int	ph_print_log(struct timeval *start_tvp, t_log_info *info)
 {
 	char			*msg;
 	struct timeval	diff;

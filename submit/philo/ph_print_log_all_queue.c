@@ -19,7 +19,7 @@ void	ph_print_log_all_queue(struct timeval *from_tv, t_action_queue *queue)
 	while (queue->size > 0)
 	{
 		ph_dequeue(queue, &info);
-		ph_logging(from_tv, &info);
+		ph_print_log(from_tv, &info);
 	}
 	return ;
 }

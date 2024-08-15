@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:00:33 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/15 13:40:44 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/15 13:44:12 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	ph_run_think(t_philosopher *philo)
 {
-	ph_act_log(philo, PH_THINK);
+	ph_append_log(philo, PH_THINK);
 }

@@ -17,10 +17,10 @@
 #include "ph_types.h"
 
 int				ph_to_int(const char *str, int *num);
-void			ph_error_print(const char *str);
+void			ph_print_error(const char *str);
 int				ph_putstr(int fd, const char *str);
 int				ph_main(t_manager *manager);
-int	ph_logging(struct timeval *start_tvp, t_log_info *info);
+int	ph_print_log(struct timeval *start_tvp, t_log_info *info);
 void			*ph_routine_philo(t_philosopher *philo);
 void			ph_destroy_philosophers(t_philosopher *philos, int cnt);
 int				ph_create_philo_threads(
@@ -37,7 +37,7 @@ t_action_queue	*ph_clone_queue(t_action_queue *queue);
 void			ph_print_log_all_queue(struct timeval *from_tv, t_action_queue *queue);
 void			*ph_routine_print(t_manager *manager);
 int				ph_msleep(unsigned int msec);
-void			ph_act_log(t_philosopher *philo, t_philo_action action);
+void			ph_append_log(t_philosopher *philo, t_philo_action action);
 void			ph_run_think(t_philosopher *philo);
 void			ph_run_eat(t_philosopher *philo);
 void			ph_run_sleep(t_philosopher *philo);

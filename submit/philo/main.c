@@ -31,7 +31,7 @@ int	main(int argc, char *argv[])
 		|| ph_to_int(argv[3], &manager.time_to_eat) != 0
 		|| ph_to_int(argv[4], &manager.time_to_sleep) != 0
 		|| (argc == 6 && ph_to_int(argv[5], &manager.must_eat_times) != 0))
-		return (ph_error_print("Error: arg format.\n"), ph_print_help(), 1);
+		return (ph_print_error("Error: arg format.\n"), ph_print_help(), 1);
 	if (argc != 6)
 		manager.must_eat_times = -1;
 	manager.action_queue = ph_new_queue(manager.philo_cnt * 10);
