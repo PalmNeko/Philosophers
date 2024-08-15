@@ -58,18 +58,10 @@ int	ph_start(t_philosopher *philos, int philo_cnt)
 	manager = philos[0].manager;
 	index = 0;
 	while (index < philo_cnt)
-	{
-		if (error == 0)
-			error = pthread_join(threads[index], NULL);
-		else
-			error = pthread_detach(threads[index]);
-		index++;
-	}
-	if (pthread_mutex_lock(&manager->lock) == 0)
-	{
-		manager->in_process = false;
-		pthread_mutex_unlock(&manager->lock);
-	};
+		pthread_join(threads[index++], NULL);
+	pthread_mutex_lock(&manager->lock);
+	manager->in_process = false;
+	pthread_mutex_unlock(&manager->lock);
 	pthread_join(print_thread, NULL);
 	free(threads);
 	return (error);
