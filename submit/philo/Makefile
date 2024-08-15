@@ -18,7 +18,7 @@ clean:
 fclean: clean
 	rm -rf $(NAME)
 
-re: fclean re
+re: fclean all
 
 test: norm
 
