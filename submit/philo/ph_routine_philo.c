@@ -19,9 +19,9 @@ void	*ph_routine_philo(t_philosopher *philo)
 	cnt = 0;
 	while (cnt < 10)
 	{
-		ph_think(philo);
-		ph_eat(philo);
-		ph_sleep(philo);
+		ph_run_think(philo);
+		ph_run_eat(philo);
+		ph_run_sleep(philo);
 		cnt++;
 	}
 	return (NULL);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ph_eat.c                                           :+:      :+:    :+:   */
+/*   ph_run_eat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:01:13 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/15 11:02:47 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/15 13:39:55 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	take_fork(t_philosopher *philo, t_philosopher *taken_philo);
 void	untake_fork(t_philosopher *philo, t_philosopher *taken_philo);
 
-void	ph_eat(t_philosopher *philo)
+void	ph_run_eat(t_philosopher *philo)
 {
 	int				right_no;
 	t_philosopher	*right_philo;
