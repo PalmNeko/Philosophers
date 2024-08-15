@@ -28,7 +28,6 @@ int	ph_main(int philo_cnt, t_manager *manager)
 	if (philos == NULL)
 		return (ENOMEM);
 	manager->philos = philos;
-	manager->philo_cnt = philo_cnt;
 	gettimeofday(&manager->start, NULL);
 	manager->in_process = true;
 	pthread_mutex_init(&manager->lock, NULL);

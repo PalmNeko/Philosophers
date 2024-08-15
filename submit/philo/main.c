@@ -22,12 +22,11 @@ void	ph_print_help(void)
 int	main(int argc, char *argv[])
 {
 	t_manager	manager;
-	int			args[5];
 	int			result;
 
 	if (argc != 5 && argc != 6)
 		return (ph_print_help(), 1);
-	if (ph_to_int(argv[1], &args[0]) != 0
+	if (ph_to_int(argv[1], &manager.philo_cnt) != 0
 		|| ph_to_int(argv[2], &manager.time_to_die) != 0
 		|| ph_to_int(argv[3], &manager.time_to_eat) != 0
 		|| ph_to_int(argv[4], &manager.time_to_sleep) != 0
@@ -35,10 +34,10 @@ int	main(int argc, char *argv[])
 		return (ph_error_print("Error: arg format.\n"), ph_print_help(), 1);
 	if (argc != 6)
 		manager.must_eat_times = -1;
-	manager.action_queue = ph_new_queue(args[0] * 10);
+	manager.action_queue = ph_new_queue(manager.philo_cnt * 10);
 	if (manager.action_queue == NULL)
 		return (1);
-	result = ph_main(args[0], &manager);
+	result = ph_main(manager.philo_cnt, &manager);
 	ph_destroy_queue(manager.action_queue);
 	return (result);
 }
