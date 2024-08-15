@@ -19,11 +19,11 @@
 
 typedef struct s_action_queue		t_action_queue;
 typedef struct s_philosopher		t_philosopher;
-typedef struct s_ph_common			t_manager;
+typedef struct s_ph_manager			t_manager;
 typedef enum e_philo_action			t_philo_action;
 typedef struct s_log_info			t_log_info;
 
-struct	s_ph_common
+struct	s_ph_manager
 {
 	struct timeval	start;
 	int				time_to_die;
