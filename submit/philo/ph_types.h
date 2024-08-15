@@ -38,7 +38,7 @@ struct s_philosopher
 {
 	int				no;
 	pthread_mutex_t fork;
-	t_manager		*common;
+	t_manager		*manager;
 };
 
 typedef struct s_philo_thread_arg

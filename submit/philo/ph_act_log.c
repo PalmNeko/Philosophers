@@ -15,5 +15,5 @@
 
 void	ph_act_log(t_philosopher *philo, t_philo_action action)
 {
-	ph_enqueue_with_lock(philo->common->action_queue, philo->no, action);
+	ph_enqueue_with_lock(philo->manager->action_queue, philo->no, action);
 }

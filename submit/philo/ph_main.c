@@ -54,8 +54,8 @@ int	ph_start(t_philosopher *philos, int philo_cnt)
 	pthread_create(&print_thread,
 				NULL,
 				(void *(*)(void *))ph_routine_print,
-				philos[0].common);
-	manager = philos[0].common;
+				philos[0].manager);
+	manager = philos[0].manager;
 	index = 0;
 	while (index < philo_cnt)
 	{
@@ -88,7 +88,7 @@ t_philosopher	*ph_generate_philosophers(int philo_cnt, t_manager *common)
 	while (index < philo_cnt)
 	{
 		philos[index] = (t_philosopher){
-			.common = common,
+			.manager = common,
 			.no = index + 1,
 		};
 		pthread_mutex_init(&philos[index].fork, NULL);

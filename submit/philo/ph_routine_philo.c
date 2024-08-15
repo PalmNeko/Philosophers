@@ -42,24 +42,24 @@ void	eat(t_philosopher *philo)
 {
 	if (philo->no == 1)
 	{
-		take_fork(philo, &(philo->common->philos)[(philo->no) % philo->common->philo_cnt]);
+		take_fork(philo, &(philo->manager->philos)[(philo->no) % philo->manager->philo_cnt]);
 		take_fork(philo, philo);
 	}
 	else
 	{
 		take_fork(philo, philo);
-		take_fork(philo, &(philo->common->philos)[(philo->no) % philo->common->philo_cnt]);
+		take_fork(philo, &(philo->manager->philos)[(philo->no) % philo->manager->philo_cnt]);
 	}
 	ph_act_log(philo, PH_EAT);
-	ph_msleep(philo->common->time_to_eat);
+	ph_msleep(philo->manager->time_to_eat);
 	if (philo->no == 1)
 	{
 		untake_fork(philo, philo);
-		untake_fork(philo, &(philo->common->philos)[(philo->no) % philo->common->philo_cnt]);
+		untake_fork(philo, &(philo->manager->philos)[(philo->no) % philo->manager->philo_cnt]);
 	}
 	else
 	{
-		untake_fork(philo, &(philo->common->philos)[(philo->no) % philo->common->philo_cnt]);
+		untake_fork(philo, &(philo->manager->philos)[(philo->no) % philo->manager->philo_cnt]);
 		untake_fork(philo, philo);
 	}
 }
@@ -79,5 +79,5 @@ void	untake_fork(t_philosopher *philo, t_philosopher *taken_philo)
 void	sleep(t_philosopher *philo)
 {
 	ph_act_log(philo, PH_SLEEP);
-	ph_msleep((unsigned int)philo->common->time_to_sleep);
+	ph_msleep((unsigned int)philo->manager->time_to_sleep);
 }
