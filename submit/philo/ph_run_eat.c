@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:01:13 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/16 16:29:35 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:01:39 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ph_run_eat(t_philosopher *philo)
 		take_fork(philo, philo);
 		philo->is_eating = true;
 		ph_append_log(philo, PH_EAT);
-		ph_msleep(philo->manager->time_to_eat, philo->manager);
+		ph_msleep_philo(philo->manager->time_to_eat, philo);
 		untake_fork(philo, philo);
 		untake_fork(philo, right_philo);
 	}
@@ -39,7 +39,7 @@ void	ph_run_eat(t_philosopher *philo)
 		take_fork(philo, right_philo);
 		philo->is_eating = true;
 		ph_append_log(philo, PH_EAT);
-		ph_msleep(philo->manager->time_to_eat, philo->manager);
+		ph_msleep_philo(philo->manager->time_to_eat, philo);
 		untake_fork(philo, right_philo);
 		untake_fork(philo, philo);
 	}

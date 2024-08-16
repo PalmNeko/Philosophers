@@ -31,5 +31,7 @@ void	*ph_routine_philo(t_philosopher *philo)
 		ph_run_sleep(philo);
 		cnt++;
 	}
+	if (ph_is_alive(philo) == false)
+		return (NULL);
 	return (NULL);
 }
