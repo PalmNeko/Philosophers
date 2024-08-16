@@ -15,8 +15,6 @@
 #include "ph_types.h"
 #include "ph_defs.h"
 
-unsigned int	ph_timertomsc(struct timeval *tvp);
-struct timeval	ph_msectotimeval(unsigned int timesec);
 int				ph_wait_once(struct timeval *nowtvp, struct timeval *endtvp);
 unsigned int	ph_calc_wait_time(struct timeval *subtvp);
 
@@ -78,13 +76,4 @@ unsigned int	ph_calc_wait_time(struct timeval *subtvp)
 	else
 		sleep_time_usec = 0;
 	return (sleep_time_usec);
-}
-
-struct timeval	ph_msectotimeval(unsigned int timesec)
-{
-	struct timeval	tv;
-
-	tv.tv_sec = timesec / 1000;
-	tv.tv_usec = (timesec % 1000) * 1000;
-	return (tv);
 }
