@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:01:13 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/16 12:17:14 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:29:35 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	ph_run_eat(t_philosopher *philo)
 		untake_fork(philo, right_philo);
 		untake_fork(philo, philo);
 	}
+	gettimeofday(&philo->last_eat, NULL);
 	philo->is_eating = false;
 }
 
