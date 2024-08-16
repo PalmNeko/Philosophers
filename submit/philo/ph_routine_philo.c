@@ -17,7 +17,8 @@ void	*ph_routine_philo(t_philosopher *philo)
 	int	cnt;
 
 	cnt = 0;
-	while (cnt < 10)
+	while (philo->manager->must_eat_times == -1
+		|| cnt < philo->manager->must_eat_times)
 	{
 		if (ph_is_alive(philo) == false)
 			return (NULL);
