@@ -25,13 +25,14 @@ int	ph_main(t_manager *manager)
 	t_philosopher	*philos;
 	int				error;
 
+	gettimeofday(&manager->start, NULL);
+	gettimeofday(&manager->now, NULL);
+	manager->die_tv = ph_msectotimeval(manager->time_to_die);
+	manager->in_process = true;
 	philos = ph_generate_philosophers(manager);
 	if (philos == NULL)
 		return (ENOMEM);
 	manager->philos = philos;
-	gettimeofday(&manager->start, NULL);
-	gettimeofday(&manager->now, NULL);
-	manager->in_process = true;
 	pthread_mutex_init(&manager->lock, NULL);
 	error = ph_start(manager, philos);
 	ph_destroy_philosophers(philos, manager->philo_cnt);
@@ -94,6 +95,7 @@ t_philosopher	*ph_generate_philosophers(t_manager *manager)
 	{
 		philos[index] = (t_philosopher){
 			.manager = manager,
+			.last_eat = manager->start,
 			.no = index + 1,
 		};
 		pthread_mutex_init(&philos[index].fork, NULL);

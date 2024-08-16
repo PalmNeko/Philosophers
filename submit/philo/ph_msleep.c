@@ -12,7 +12,7 @@
 
 #include <unistd.h>
 #include <sys/time.h>
-#include "ph_types.h"
+#include "ph.h"
 #include "ph_defs.h"
 
 int				ph_wait_once(struct timeval *nowtvp, struct timeval *endtvp);

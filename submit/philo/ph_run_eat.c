@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:01:13 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/15 17:21:03 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/16 12:17:14 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,16 @@ void	ph_run_eat(t_philosopher *philo)
 	int				right_no;
 	t_philosopher	*right_philo;
 
+
 	right_no = (philo->no) % philo->manager->philo_cnt;
 	right_philo = &(philo->manager->philos)[right_no];
 	if (philo->no == 1)
 	{
 		take_fork(philo, right_philo);
 		take_fork(philo, philo);
+		philo->is_eating = true;
+		ph_append_log(philo, PH_EAT);
+		ph_msleep(philo->manager->time_to_eat, philo->manager);
 		untake_fork(philo, philo);
 		untake_fork(philo, right_philo);
 	}
@@ -33,15 +37,19 @@ void	ph_run_eat(t_philosopher *philo)
 	{
 		take_fork(philo, philo);
 		take_fork(philo, right_philo);
+		philo->is_eating = true;
 		ph_append_log(philo, PH_EAT);
 		ph_msleep(philo->manager->time_to_eat, philo->manager);
 		untake_fork(philo, right_philo);
 		untake_fork(philo, philo);
 	}
+	philo->is_eating = false;
 }
 
 void	take_fork(t_philosopher *philo, t_philosopher *taken_philo)
 {
+	if (ph_is_alive(philo) == false)
+		return ;
 	pthread_mutex_lock(&taken_philo->fork);
 	ph_append_log(philo, PH_PICK_UP);
 }

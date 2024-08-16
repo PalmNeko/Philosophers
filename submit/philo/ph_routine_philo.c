@@ -19,8 +19,14 @@ void	*ph_routine_philo(t_philosopher *philo)
 	cnt = 0;
 	while (cnt < 10)
 	{
+		if (ph_is_alive(philo) == false)
+			return (NULL);
 		ph_run_think(philo);
+		if (ph_is_alive(philo) == false)
+			return (NULL);
 		ph_run_eat(philo);
+		if (ph_is_alive(philo) == false)
+			return (NULL);
 		ph_run_sleep(philo);
 		cnt++;
 	}

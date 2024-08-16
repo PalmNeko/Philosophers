@@ -43,5 +43,6 @@ void			ph_run_eat(t_philosopher *philo);
 void			ph_run_sleep(t_philosopher *philo);
 void			*ph_routine_update_manager(t_manager *manager);
 struct timeval	ph_msectotimeval(unsigned int timesec);
+bool			ph_is_alive(t_philosopher *philo);
 
 #endif

@@ -27,6 +27,7 @@ struct	s_ph_manager
 {
 	struct timeval	start;
 	struct timeval	now;
+	struct timeval	die_tv;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -42,6 +43,8 @@ struct s_philosopher
 {
 	int				no;
 	pthread_mutex_t	fork;
+	struct timeval	last_eat;
+	bool			is_eating;
 	t_manager		*manager;
 };
 
