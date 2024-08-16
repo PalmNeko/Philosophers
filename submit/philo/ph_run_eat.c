@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:01:13 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/16 17:01:39 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/16 18:11:04 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,27 @@ void	untake_fork(t_philosopher *philo, t_philosopher *taken_philo);
 void	ph_run_eat(t_philosopher *philo)
 {
 	int				right_no;
-	t_philosopher	*right_philo;
-
+	t_philosopher	*first_take_philo;
+	t_philosopher	*second_take_philo;
+	t_philosopher	*right_fork_philo;
 
 	right_no = (philo->no) % philo->manager->philo_cnt;
-	right_philo = &(philo->manager->philos)[right_no];
+	right_fork_philo = &(philo->manager->philos)[right_no];
 	if (philo->no == 1)
-	{
-		take_fork(philo, right_philo);
-		take_fork(philo, philo);
-		philo->is_eating = true;
-		ph_append_log(philo, PH_EAT);
-		ph_msleep_philo(philo->manager->time_to_eat, philo);
-		untake_fork(philo, philo);
-		untake_fork(philo, right_philo);
-	}
+		first_take_philo = right_fork_philo;
 	else
-	{
-		take_fork(philo, philo);
-		take_fork(philo, right_philo);
-		philo->is_eating = true;
-		ph_append_log(philo, PH_EAT);
-		ph_msleep_philo(philo->manager->time_to_eat, philo);
-		untake_fork(philo, right_philo);
-		untake_fork(philo, philo);
-	}
+		first_take_philo = philo;
+	if (philo->no == 1)
+		second_take_philo = philo;
+	else
+		second_take_philo = right_fork_philo;
+	take_fork(philo, first_take_philo);
+	take_fork(philo, second_take_philo);
+	philo->is_eating = true;
+	ph_append_log(philo, PH_EAT);
+	ph_msleep_philo(philo->manager->time_to_eat, philo);
+	untake_fork(philo, second_take_philo);
+	untake_fork(philo, first_take_philo);
 	gettimeofday(&philo->last_eat, NULL);
 	philo->is_eating = false;
 }
