@@ -16,10 +16,16 @@
 int	ph_tvsleep_until(struct timeval *endtime, t_manager *manager)
 {
 	struct timeval	now;
+	bool			in_progress;
 
 	gettimeofday(&now, NULL);
 	while(timercmp(&now, endtime, <) && manager->in_process)
 	{
+		pthread_mutex_lock(&manager->lock);
+		in_progress = manager->in_process;
+		pthread_mutex_unlock(&manager->lock);
+		if (in_progress == false)
+			return (0);
 		if (ph_wait_once(&now, endtime) == -1)
 			return (-1);
 		gettimeofday(&now, NULL);

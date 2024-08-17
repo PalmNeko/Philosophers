@@ -16,9 +16,16 @@
 
 void	*ph_routine_update_manager(t_manager *manager)
 {
-	while (manager->in_process)
+	bool	in_progress;
+
+	while (1)
 	{
+		pthread_mutex_lock(&manager->lock);
+		in_progress = manager->in_process;
 		gettimeofday(&manager->now, NULL);
+		pthread_mutex_unlock(&manager->lock);
+		if (in_progress == false)
+			break ;
 		if (usleep(0) == -1)
 		{
 			pthread_mutex_lock(&manager->lock);

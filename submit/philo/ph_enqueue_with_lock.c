@@ -15,18 +15,17 @@
 
 int	ph_enqueue_with_lock(t_action_queue *queue, int no, t_philo_action action)
 {
-	int			error;
 	int			result;
 
+	pthread_mutex_lock(&queue->lock);
 	while ((queue->size >= queue->max_size - queue->max_size / 2))
+	{
+		pthread_mutex_unlock(&queue->lock);
 		usleep(0);
-	error = pthread_mutex_lock(&queue->lock);
-	if (error != 0)
-		return (error);
+		pthread_mutex_lock(&queue->lock);
+	}
 	result = ph_enqueue(queue, no, action);
-	error = pthread_mutex_unlock(&queue->lock);
-	if (error != 0)
-		return (error);
+	pthread_mutex_unlock(&queue->lock);
 	if (result > 0)
 		return (result);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:01:13 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/16 18:11:04 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/17 16:04:21 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,14 @@ void	ph_run_eat(t_philosopher *philo)
 		second_take_philo = philo;
 	else
 		second_take_philo = right_fork_philo;
+	if (ph_is_alive(philo) == false)
+		return ;
 	take_fork(philo, first_take_philo);
+	if (ph_is_alive(philo) == false)
+	{
+		untake_fork(philo, first_take_philo);
+		return ;
+	}
 	take_fork(philo, second_take_philo);
 	philo->is_eating = true;
 	ph_append_log(philo, PH_EAT);
@@ -45,8 +52,6 @@ void	ph_run_eat(t_philosopher *philo)
 
 void	take_fork(t_philosopher *philo, t_philosopher *taken_philo)
 {
-	if (ph_is_alive(philo) == false)
-		return ;
 	pthread_mutex_lock(&taken_philo->fork);
 	ph_append_log(philo, PH_PICK_UP);
 }
