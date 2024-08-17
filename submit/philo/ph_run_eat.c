@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:01:13 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/17 17:35:04 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/17 17:59:11 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	ph_run_eat(t_philosopher *philo)
 	t_philosopher	*first_take_philo;
 	t_philosopher	*second_take_philo;
 
+	ph_wait_until_eatable(philo);
 	first_take_philo = get_take_first_fork_philo(philo);
 	second_take_philo = get_take_second_fork_philo(philo);
 	if (ph_is_alive(philo) == false)
@@ -38,6 +39,7 @@ void	ph_run_eat(t_philosopher *philo)
 	ph_msleep_philo(philo->manager->time_to_eat, philo);
 	untake_fork(philo, second_take_philo);
 	untake_fork(philo, first_take_philo);
+	ph_report_eaten(philo);
 	gettimeofday(&philo->last_eat, NULL);
 	philo->is_eating = false;
 }

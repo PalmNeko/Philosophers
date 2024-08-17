@@ -93,6 +93,7 @@ t_philosopher	*ph_generate_philosophers(t_manager *manager)
 	index = 0;
 	while (index < manager->philo_cnt)
 	{
+		memset(&philos[index], 0, sizeof(t_philosopher));
 		philos[index] = (t_philosopher){
 			.manager = manager,
 			.last_eat = manager->start,

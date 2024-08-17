@@ -47,5 +47,7 @@ bool			ph_is_alive(t_philosopher *philo);
 int				ph_wait_once(struct timeval *nowtvp, struct timeval *endtvp);
 int				ph_tvsleep_until(struct timeval *endtime, t_manager *manager);
 int				ph_msleep_philo(unsigned int msec, t_philosopher *philo);
+void			ph_report_eaten(t_philosopher *philo);
+void			ph_wait_until_eatable(t_philosopher *philo);
 
 #endif

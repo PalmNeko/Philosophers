@@ -12,6 +12,7 @@
 
 #include "ph.h"
 #include <unistd.h>
+#include <string.h>
 
 void	ph_print_help(void)
 {
@@ -26,6 +27,7 @@ int	main(int argc, char *argv[])
 
 	if (argc != 5 && argc != 6)
 		return (ph_print_help(), 1);
+	memset(&manager, 0, sizeof(t_manager));
 	if (ph_to_int(argv[1], &manager.philo_cnt) != 0
 		|| ph_to_int(argv[2], &manager.time_to_die) != 0
 		|| ph_to_int(argv[3], &manager.time_to_eat) != 0

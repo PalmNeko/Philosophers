@@ -33,6 +33,7 @@ struct	s_ph_manager
 	int				time_to_sleep;
 	int				must_eat_times;
 	int				philo_cnt;
+	int				all_eat_times;
 	t_action_queue	*action_queue;
 	t_philosopher	*philos;
 	bool			in_process;
@@ -42,6 +43,7 @@ struct	s_ph_manager
 struct s_philosopher
 {
 	int				no;
+	int				eat_cnt;
 	pthread_mutex_t	fork;
 	struct timeval	last_eat;
 	bool			is_eating;
