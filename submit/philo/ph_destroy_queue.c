@@ -12,11 +12,13 @@
 
 #include "ph_types.h"
 #include <stdlib.h>
+#include <pthread.h>
 
 void	ph_destroy_queue(t_action_queue *queue)
 {
 	if (queue == NULL)
 		return ;
+	pthread_mutex_destroy(&queue->lock);
 	free(queue->infos);
 	free(queue);
 	return ;

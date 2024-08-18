@@ -21,6 +21,7 @@ void	ph_destroy_philosophers(t_philosopher *philos, int cnt)
 	while (index < cnt)
 	{
 		pthread_mutex_destroy(&philos[index].fork);
+		pthread_mutex_destroy(&philos[index].lock);
 		index++;
 	}
 	free(philos);

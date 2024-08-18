@@ -35,6 +35,7 @@ int	ph_main(t_manager *manager)
 	manager->philos = philos;
 	pthread_mutex_init(&manager->lock, NULL);
 	error = ph_start(manager, philos);
+	pthread_mutex_destroy(&manager->lock);
 	ph_destroy_philosophers(philos, manager->philo_cnt);
 	return (error);
 }
