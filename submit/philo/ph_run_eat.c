@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:01:13 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/18 10:39:02 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/18 10:50:09 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,8 @@ void	take_fork(t_philosopher *philo)
 	first_take_philo = get_take_first_fork_philo(philo);
 	second_take_philo = get_take_second_fork_philo(philo);
 	pthread_mutex_lock(&first_take_philo->fork);
-	ph_observe_death(philo);
 	ph_append_log(philo, PH_PICK_UP);
 	pthread_mutex_lock(&second_take_philo->fork);
-	ph_observe_death(philo);
 	ph_append_log(philo, PH_PICK_UP);
 }
 

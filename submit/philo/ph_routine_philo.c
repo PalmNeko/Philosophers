@@ -14,21 +14,22 @@
 
 void	*ph_routine_philo(t_philosopher *philo)
 {
-	int	cnt;
+	int		cnt;
+	bool	in_process;
 
 	cnt = 0;
 	while (philo->manager->must_eat_times == -1
 		|| cnt < philo->manager->must_eat_times)
 	{
-		ph_observe_death(philo);
 		ph_run_think(philo);
-		ph_observe_death(philo);
 		ph_run_eat(philo);
-		ph_observe_death(philo);
 		ph_run_sleep(philo);
+		pthread_mutex_lock(&philo->manager->lock);
+		in_process = philo->manager->in_process;
+		pthread_mutex_unlock(&philo->manager->lock);
+		if (in_process == false)
+			return (NULL);
 		cnt++;
 	}
-	if (ph_is_alive(philo) == false)
-		return (NULL);
 	return (NULL);
 }
