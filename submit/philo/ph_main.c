@@ -88,10 +88,12 @@ int	ph_philo_start(t_manager *manager, t_philosopher *philos)
 	int				index;
 	int				error;
 
-	threads = (pthread_t *)malloc(sizeof(pthread_t) * manager->config->philo_cnt);
+	threads = (pthread_t *)malloc(sizeof(pthread_t)
+			* manager->config->philo_cnt);
 	if (threads == NULL)
 		return (ENOMEM);
-	error = ph_create_philo_threads(threads, philos, manager->config->philo_cnt);
+	error = ph_create_philo_threads(
+			threads, philos, manager->config->philo_cnt);
 	if (error != 0)
 		return (free(threads), error);
 	index = 0;
