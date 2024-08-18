@@ -16,11 +16,9 @@
 
 void	ph_wait_until_eatable(t_philosopher *philo)
 {
-	t_manager	*manager;
 	bool		is_eatable;
 	bool		in_progress;
 
-	manager = philo->manager;
 	while (1)
 	{
 		pthread_mutex_lock(&philo->lock);
