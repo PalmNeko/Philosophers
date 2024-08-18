@@ -6,40 +6,26 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:01:13 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/17 18:19:09 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/18 10:39:02 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ph.h"
 #include <unistd.h>
 
-void			take_fork(t_philosopher *philo, t_philosopher *taken_philo);
-void			untake_fork(t_philosopher *philo, t_philosopher *taken_philo);
+void			take_fork(t_philosopher *philo);
+void			untake_fork(t_philosopher *philo);
 t_philosopher	*get_take_first_fork_philo(t_philosopher *philo);
 t_philosopher	*get_take_second_fork_philo(t_philosopher *philo);
 
 void	ph_run_eat(t_philosopher *philo)
 {
-	t_philosopher	*first_take_philo;
-	t_philosopher	*second_take_philo;
-
 	ph_wait_until_eatable(philo);
-	first_take_philo = get_take_first_fork_philo(philo);
-	second_take_philo = get_take_second_fork_philo(philo);
-	if (ph_is_alive(philo) == false)
-		return ;
-	take_fork(philo, first_take_philo);
-	if (ph_is_alive(philo) == false)
-	{
-		untake_fork(philo, first_take_philo);
-		return ;
-	}
-	take_fork(philo, second_take_philo);
+	take_fork(philo);
 	philo->is_eating = true;
 	ph_append_log(philo, PH_EAT);
 	ph_msleep_philo(philo->manager->time_to_eat, philo);
-	untake_fork(philo, first_take_philo);
-	untake_fork(philo, second_take_philo);
+	untake_fork(philo);
 	ph_report_eaten(philo);
 	gettimeofday(&philo->last_eat, NULL);
 	philo->is_eating = false;
@@ -76,14 +62,28 @@ t_philosopher	*get_take_second_fork_philo(t_philosopher *philo)
 	return (second_take_philo);
 }
 
-void	take_fork(t_philosopher *philo, t_philosopher *taken_philo)
+void	take_fork(t_philosopher *philo)
 {
-	pthread_mutex_lock(&taken_philo->fork);
+	t_philosopher	*first_take_philo;
+	t_philosopher	*second_take_philo;
+
+	first_take_philo = get_take_first_fork_philo(philo);
+	second_take_philo = get_take_second_fork_philo(philo);
+	pthread_mutex_lock(&first_take_philo->fork);
+	ph_observe_death(philo);
+	ph_append_log(philo, PH_PICK_UP);
+	pthread_mutex_lock(&second_take_philo->fork);
+	ph_observe_death(philo);
 	ph_append_log(philo, PH_PICK_UP);
 }
 
-void	untake_fork(t_philosopher *philo, t_philosopher *taken_philo)
+void	untake_fork(t_philosopher *philo)
 {
-	(void)philo;
-	pthread_mutex_unlock(&taken_philo->fork);
+	t_philosopher	*first_take_philo;
+	t_philosopher	*second_take_philo;
+
+	first_take_philo = get_take_first_fork_philo(philo);
+	second_take_philo = get_take_second_fork_philo(philo);
+	pthread_mutex_unlock(&first_take_philo->fork);
+	pthread_mutex_unlock(&second_take_philo->fork);
 }

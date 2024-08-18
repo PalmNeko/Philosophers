@@ -20,14 +20,11 @@ void	*ph_routine_philo(t_philosopher *philo)
 	while (philo->manager->must_eat_times == -1
 		|| cnt < philo->manager->must_eat_times)
 	{
-		if (ph_is_alive(philo) == false)
-			return (NULL);
+		ph_observe_death(philo);
 		ph_run_think(philo);
-		if (ph_is_alive(philo) == false)
-			return (NULL);
+		ph_observe_death(philo);
 		ph_run_eat(philo);
-		if (ph_is_alive(philo) == false)
-			return (NULL);
+		ph_observe_death(philo);
 		ph_run_sleep(philo);
 		cnt++;
 	}
