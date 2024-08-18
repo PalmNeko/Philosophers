@@ -15,6 +15,7 @@
 #include <unistd.h>
 
 void	ph_update_philo_eating(t_manager *manager, bool *eat_switch);
+void	ph_exit_all_philo(t_manager *manager);
 
 void	*ph_routine_update_manager(t_manager *manager)
 {
@@ -62,4 +63,20 @@ void	ph_update_philo_eating(t_manager *manager, bool *eat_switch)
 			manager->target_no = (manager->target_no + 1) % 2;
 	}
 	pthread_mutex_unlock(&target->lock);
+}
+
+void	ph_exit_all_philo(t_manager *manager)
+{
+	t_philosopher	*target;
+	int				index;
+
+	index = 0;
+	while (index < manager->philo_cnt)
+	{
+		target = &manager->philos[index];
+		pthread_mutex_lock(&target->lock);
+		target->in_process = false;
+		pthread_mutex_unlock(&target->lock);
+		index++;
+	}
 }

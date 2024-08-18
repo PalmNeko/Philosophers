@@ -23,12 +23,10 @@ void	ph_wait_until_eatable(t_philosopher *philo)
 	manager = philo->manager;
 	while (1)
 	{
-		pthread_mutex_lock(&manager->lock);
 		pthread_mutex_lock(&philo->lock);
 		is_eatable = philo->eating_order;
-		in_progress = manager->in_process;
+		in_progress = philo->in_process;
 		pthread_mutex_unlock(&philo->lock);
-		pthread_mutex_unlock(&manager->lock);
 		if (is_eatable == true || in_progress == false)
 			return ;
 		usleep(0);

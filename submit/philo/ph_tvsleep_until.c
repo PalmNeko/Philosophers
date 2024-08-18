@@ -13,17 +13,17 @@
 #include "ph.h"
 #include <sys/time.h>
 
-int	ph_tvsleep_until(struct timeval *endtime, t_manager *manager)
+int	ph_tvsleep_until(struct timeval *endtime, t_philosopher *philo)
 {
 	struct timeval	now;
 	bool			in_progress;
 
 	gettimeofday(&now, NULL);
-	while(timercmp(&now, endtime, <) && manager->in_process)
+	while(timercmp(&now, endtime, <))
 	{
-		pthread_mutex_lock(&manager->lock);
-		in_progress = manager->in_process;
-		pthread_mutex_unlock(&manager->lock);
+		pthread_mutex_lock(&philo->lock);
+		in_progress = philo->in_process;
+		pthread_mutex_unlock(&philo->lock);
 		if (in_progress == false)
 			return (0);
 		if (ph_wait_once(&now, endtime) == -1)

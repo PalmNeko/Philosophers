@@ -95,6 +95,7 @@ t_philosopher	*ph_generate_philosophers(t_manager *manager)
 	{
 		memset(&philos[index], 0, sizeof(t_philosopher));
 		philos[index] = (t_philosopher){
+			.in_process = true,
 			.manager = manager,
 			.last_eat = manager->start,
 			.no = index + 1,

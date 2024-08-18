@@ -15,7 +15,7 @@
 #include "ph.h"
 #include "ph_defs.h"
 
-int	ph_msleep(unsigned int msec, t_manager *manager)
+int	ph_msleep(unsigned int msec, t_philosopher *philo)
 {
 	struct timeval	start;
 	struct timeval	diff;
@@ -24,5 +24,5 @@ int	ph_msleep(unsigned int msec, t_manager *manager)
 	gettimeofday(&start, NULL);
 	diff = ph_msectotimeval(msec);
 	timeradd(&start, &diff, &endtime);
-	return (ph_tvsleep_until(&endtime, manager));
+	return (ph_tvsleep_until(&endtime, philo));
 }

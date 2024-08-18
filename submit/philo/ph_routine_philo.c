@@ -24,9 +24,9 @@ void	*ph_routine_philo(t_philosopher *philo)
 		ph_run_think(philo);
 		ph_run_eat(philo);
 		ph_run_sleep(philo);
-		pthread_mutex_lock(&philo->manager->lock);
-		in_process = philo->manager->in_process;
-		pthread_mutex_unlock(&philo->manager->lock);
+		pthread_mutex_lock(&philo->lock);
+		in_process = philo->in_process;
+		pthread_mutex_unlock(&philo->lock);
 		if (in_process == false)
 			return (NULL);
 		cnt++;
