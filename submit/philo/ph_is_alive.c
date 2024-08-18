@@ -27,7 +27,7 @@ bool	ph_is_alive(t_philosopher *philo)
 		timeradd(&philo->last_eat, &manager->config->die_tv, &added_tv);
 		if (timercmp(&added_tv, &manager->now, <))
 		{
-			ph_append_log(philo, PH_DIE);
+			ph_print_action(philo, PH_DIE);
 			manager->in_process = false;
 			in_progress = false;
 		}

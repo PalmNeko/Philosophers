@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:01:13 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/18 17:17:55 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/19 01:11:15 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ph_run_eat(t_philosopher *philo)
 	pthread_mutex_lock(&philo->lock);
 	philo->eating_order = false;
 	pthread_mutex_unlock(&philo->lock);
-	ph_append_log(philo, PH_EAT);
+	ph_print_action(philo, PH_EAT);
 	philo->is_eating = true;
 	ph_msleep_philo(philo->manager->config->time_to_eat, philo);
 	untake_fork(philo);
@@ -73,9 +73,9 @@ void	take_fork(t_philosopher *philo)
 	first_take_philo = get_take_first_fork_philo(philo);
 	second_take_philo = get_take_second_fork_philo(philo);
 	pthread_mutex_lock(&first_take_philo->fork);
-	ph_append_log(philo, PH_PICK_UP);
+	ph_print_action(philo, PH_PICK_UP);
 	pthread_mutex_lock(&second_take_philo->fork);
-	ph_append_log(philo, PH_PICK_UP);
+	ph_print_action(philo, PH_PICK_UP);
 }
 
 void	untake_fork(t_philosopher *philo)

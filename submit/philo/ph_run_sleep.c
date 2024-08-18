@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:02:08 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/18 17:17:55 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/19 01:11:15 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ph_run_sleep(t_philosopher *philo)
 {
-	ph_append_log(philo, PH_SLEEP);
+	ph_print_action(philo, PH_SLEEP);
 	ph_msleep_philo((unsigned int)philo->manager->config->time_to_sleep, philo);
 }

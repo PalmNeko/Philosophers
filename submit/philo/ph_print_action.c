@@ -17,7 +17,7 @@
 bool	ph_is_alive2(t_philosopher *philo, struct timeval *now);
 void	ph_print_log_with_mutex(t_philosopher *philo, t_philo_action action);
 
-void	ph_append_log(t_philosopher *philo, t_philo_action action)
+void	ph_print_action(t_philosopher *philo, t_philo_action action)
 {
 	static pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER;
 	struct timeval			now;
