@@ -38,9 +38,10 @@ void	*ph_routine_update_manager(t_manager *manager)
 			pthread_mutex_lock(&manager->lock);
 			manager->in_process = false;
 			pthread_mutex_unlock(&manager->lock);
-			return (NULL);
+			break ;
 		}
 	}
+	ph_exit_all_philo(manager);
 	return (NULL);
 }
 
