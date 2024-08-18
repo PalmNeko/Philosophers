@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 12:15:44 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/18 12:17:15 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/18 13:58:26 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ph_philo_tvsleep_until(struct timeval *endtime, t_philosopher *philo)
 	bool			in_progress;
 
 	gettimeofday(&now, NULL);
-	while(timercmp(&now, endtime, <))
+	while (timercmp(&now, endtime, <))
 	{
 		pthread_mutex_lock(&philo->lock);
 		in_progress = philo->in_process;

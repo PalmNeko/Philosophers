@@ -19,7 +19,7 @@ unsigned int	ph_calc_wait_time(struct timeval *subtvp);
 /**
  * the usleep has accuracy so `usleep(sleep_time_usec - TIMER_ACCURACY_USEC)`
  */
-int ph_wait_once(struct timeval *nowtvp, struct timeval *endtvp)
+int	ph_wait_once(struct timeval *nowtvp, struct timeval *endtvp)
 {
 	struct timeval	sub;
 	unsigned int	sleep_time_usec;

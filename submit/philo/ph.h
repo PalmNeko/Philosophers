@@ -13,14 +13,14 @@
 #ifndef PH_H
 # define PH_H
 
-#include <sys/time.h>
-#include "ph_types.h"
+# include <sys/time.h>
+# include "ph_types.h"
 
 int				ph_to_int(const char *str, int *num);
 void			ph_print_error(const char *str);
 int				ph_putstr(int fd, const char *str);
 int				ph_main(t_manager *manager);
-int	ph_print_log(struct timeval *start_tvp, t_log_info *info);
+int				ph_print_log(struct timeval *start_tvp, t_log_info *info);
 void			*ph_routine_philo(t_philosopher *philo);
 void			ph_destroy_philosophers(t_philosopher *philos, int cnt);
 int				ph_create_philo_threads(
@@ -29,12 +29,15 @@ void			*ph_routine_philo(t_philosopher *philo);
 
 void			ph_destroy_queue(t_action_queue *queue);
 t_action_queue	*ph_new_queue(int init_size);
-int				ph_enqueue(t_action_queue *queue, int no, t_philo_action action);
+int				ph_enqueue(
+					t_action_queue *queue, int no, t_philo_action action);
 int				ph_dequeue(t_action_queue *queue, t_log_info *info);
-int				ph_enqueue_with_lock(t_action_queue *queue, int no, t_philo_action action);
-int 			ph_dequeue_with_lock(t_action_queue *queue, t_log_info *info);
+int				ph_enqueue_with_lock(
+					t_action_queue *queue, int no, t_philo_action action);
+int				ph_dequeue_with_lock(t_action_queue *queue, t_log_info *info);
 t_action_queue	*ph_clone_queue(t_action_queue *queue);
-void			ph_print_log_all_queue(struct timeval *from_tv, t_action_queue *queue);
+void			ph_print_log_all_queue(
+					struct timeval *from_tv, t_action_queue *queue);
 void			*ph_routine_print(t_manager *manager);
 int				ph_msleep(unsigned int msec, t_philosopher *manager);
 void			ph_append_log(t_philosopher *philo, t_philo_action action);

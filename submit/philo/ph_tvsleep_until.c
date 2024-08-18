@@ -19,7 +19,7 @@ int	ph_tvsleep_until(struct timeval *endtime, t_philosopher *philo)
 	bool			in_progress;
 
 	gettimeofday(&now, NULL);
-	while(timercmp(&now, endtime, <))
+	while (timercmp(&now, endtime, <))
 	{
 		pthread_mutex_lock(&philo->lock);
 		in_progress = philo->in_process;
