@@ -14,10 +14,15 @@
 #include <sys/time.h>
 #include <unistd.h>
 
+void	ph_update_philo_eating(t_manager *manager, bool *eat_switch);
+
 void	*ph_routine_update_manager(t_manager *manager)
 {
 	bool	in_progress;
+	bool	eat_switch;
 
+	eat_switch = false;
+	manager->target_no = 0;
 	while (1)
 	{
 		pthread_mutex_lock(&manager->lock);
@@ -26,6 +31,7 @@ void	*ph_routine_update_manager(t_manager *manager)
 		pthread_mutex_unlock(&manager->lock);
 		if (in_progress == false)
 			break ;
+		ph_update_philo_eating(manager, &eat_switch);
 		if (usleep(0) == -1)
 		{
 			pthread_mutex_lock(&manager->lock);
@@ -35,4 +41,25 @@ void	*ph_routine_update_manager(t_manager *manager)
 		}
 	}
 	return (NULL);
+}
+
+void	ph_update_philo_eating(t_manager *manager, bool *eat_switch)
+{
+	t_philosopher	*target;
+
+	target = &manager->philos[manager->target_no];
+	pthread_mutex_lock(&target->lock);
+	if (*eat_switch == false && target->eating_order == false)
+	{
+		target->eating_order = true;
+		*eat_switch = true;
+	}
+	else if (*eat_switch == true && target->eating_order == false)
+	{
+		*eat_switch = false;
+		manager->target_no += 2;
+		if (manager->target_no >= manager->philo_cnt)
+			manager->target_no = (manager->target_no + 1) % 2;
+	}
+	pthread_mutex_unlock(&target->lock);
 }

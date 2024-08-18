@@ -100,6 +100,7 @@ t_philosopher	*ph_generate_philosophers(t_manager *manager)
 			.no = index + 1,
 		};
 		pthread_mutex_init(&philos[index].fork, NULL);
+		pthread_mutex_init(&philos[index].lock, NULL);
 		index++;
 	}
 	return (philos);
