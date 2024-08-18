@@ -12,31 +12,57 @@
 
 #include "ph.h"
 #include <stdio.h>
+#include <unistd.h>
 
 void	ph_notify_to_manager(t_philosopher *philo, t_philo_action action);
+bool	ph_is_alive2(t_philosopher *philo);
 
 void	ph_append_log(t_philosopher *philo, t_philo_action action)
 {
+		t_action_queue	*queue;
 	t_manager		*manager;
-	struct timeval	added_tv;
 
+	queue = philo->manager->action_queue;
 	manager = philo->manager;
 	pthread_mutex_lock(&manager->lock);
-	if (manager->in_process == true)
+	pthread_mutex_lock(&queue->lock);
+	while ((queue->size >= queue->max_size - queue->max_size / 2)
+		&& manager->in_process)
 	{
-		timeradd(&philo->last_eat, &manager->config->die_tv, &added_tv);
-		if (timercmp(&added_tv, &manager->now, <))
-		{
-			ph_notify_to_manager(philo, PH_DIE);
-			manager->in_process = false;
-		}
+		pthread_mutex_unlock(&queue->lock);
+		pthread_mutex_unlock(&manager->lock);
+		usleep(0);
+		pthread_mutex_lock(&manager->lock);
+		pthread_mutex_lock(&queue->lock);
 	}
-	if (manager->in_process == true)
-		ph_notify_to_manager(philo, action);
+	if (manager->in_process)
+	{
+		if (ph_is_alive2(philo) == false)
+		{
+			manager->in_process = false;
+			ph_enqueue(queue, philo->no, PH_DIE);
+		}
+		ph_enqueue(queue, philo->no, action);
+	}
+	pthread_mutex_unlock(&queue->lock);
 	pthread_mutex_unlock(&manager->lock);
 }
 
-void	ph_notify_to_manager(t_philosopher *philo, t_philo_action action)
+bool	ph_is_alive2(t_philosopher *philo)
 {
-	ph_enqueue_with_lock(philo->manager->action_queue, philo->no, action);
+	struct timeval	added_tv;
+	struct timeval	now;
+	t_manager		*manager;
+
+	manager = philo->manager;
+	if (philo->in_process == true)
+	{
+		timeradd(&philo->last_eat, &manager->config->die_tv, &added_tv);
+		gettimeofday(&now, NULL);
+		if (timercmp(&added_tv, &now, <))
+			return (false);
+	}
+	else
+		return (false);
+	return (true);
 }
