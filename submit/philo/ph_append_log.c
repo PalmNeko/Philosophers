@@ -24,7 +24,7 @@ void	ph_append_log(t_philosopher *philo, t_philo_action action)
 	pthread_mutex_lock(&manager->lock);
 	if (manager->in_process == true)
 	{
-		timeradd(&philo->last_eat, &manager->die_tv, &added_tv);
+		timeradd(&philo->last_eat, &manager->config->die_tv, &added_tv);
 		if (timercmp(&added_tv, &manager->now, <))
 		{
 			ph_notify_to_manager(philo, PH_DIE);

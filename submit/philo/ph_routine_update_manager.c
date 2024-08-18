@@ -60,7 +60,7 @@ void	ph_update_philo_eating(t_manager *manager, bool *eat_switch)
 	{
 		*eat_switch = false;
 		manager->target_no += 2;
-		if (manager->target_no >= manager->philo_cnt)
+		if (manager->target_no >= manager->config->philo_cnt)
 			manager->target_no = (manager->target_no + 1) % 2;
 	}
 	pthread_mutex_unlock(&target->lock);
@@ -72,7 +72,7 @@ void	ph_exit_all_philo(t_manager *manager)
 	int				index;
 
 	index = 0;
-	while (index < manager->philo_cnt)
+	while (index < manager->config->philo_cnt)
 	{
 		target = &manager->philos[index];
 		pthread_mutex_lock(&target->lock);

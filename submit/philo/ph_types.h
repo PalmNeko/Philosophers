@@ -22,18 +22,24 @@ typedef struct s_philosopher		t_philosopher;
 typedef struct s_ph_manager			t_manager;
 typedef enum e_philo_action			t_philo_action;
 typedef struct s_log_info			t_log_info;
+typedef struct s_ph_config			t_ph_config;
 
-struct	s_ph_manager
+struct s_ph_config
 {
-	struct timeval	start;
-	struct timeval	now;
 	struct timeval	die_tv;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat_times;
 	int				philo_cnt;
+};
+
+struct	s_ph_manager
+{
+	struct timeval	start;
+	struct timeval	now;
 	int				target_no;
+	t_ph_config		*config;
 	t_action_queue	*action_queue;
 	t_philosopher	*philos;
 	bool			in_process;

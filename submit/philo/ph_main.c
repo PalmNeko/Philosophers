@@ -19,25 +19,46 @@
 t_philosopher	*ph_generate_philosophers(t_manager *manager);
 int				ph_start(t_manager *manager, t_philosopher *philos);
 int				ph_philo_start(t_manager *manager, t_philosopher *philos);
+int				ph_init_manager(t_manager *manager, t_ph_config *config);
+void			ph_finalize_manager(t_manager *manager);
 
-int	ph_main(t_manager *manager)
+int	ph_main(t_ph_config *config)
 {
-	t_philosopher	*philos;
+	t_manager		manager;
 	int				error;
 
+	if (ph_init_manager(&manager, config) != 0)
+		return (1);
+	error = ph_start(&manager, manager.philos);
+	ph_finalize_manager(&manager);
+	return (error);
+}
+
+int	ph_init_manager(t_manager *manager, t_ph_config *config)
+{
+	t_philosopher	*philos;
+
+	memset(manager, 0, sizeof(t_manager));
+	manager->action_queue = ph_new_queue(config->philo_cnt * 2);
+	if (manager->action_queue == NULL)
+		return (ENOMEM);
+	pthread_mutex_init(&manager->lock, NULL);
 	gettimeofday(&manager->start, NULL);
-	gettimeofday(&manager->now, NULL);
-	manager->die_tv = ph_msectotimeval(manager->time_to_die);
+	manager->config = config;
 	manager->in_process = true;
+	gettimeofday(&manager->now, NULL);
 	philos = ph_generate_philosophers(manager);
 	if (philos == NULL)
-		return (ENOMEM);
+		return (ph_finalize_manager(manager), ENOMEM);
 	manager->philos = philos;
-	pthread_mutex_init(&manager->lock, NULL);
-	error = ph_start(manager, philos);
+	return (0);
+}
+
+void	ph_finalize_manager(t_manager *manager)
+{
 	pthread_mutex_destroy(&manager->lock);
-	ph_destroy_philosophers(philos, manager->philo_cnt);
-	return (error);
+	ph_destroy_philosophers(manager->philos, manager->config->philo_cnt);
+	ph_destroy_queue(manager->action_queue);
 }
 
 int	ph_start(t_manager *manager, t_philosopher *philos)
@@ -67,14 +88,14 @@ int	ph_philo_start(t_manager *manager, t_philosopher *philos)
 	int				index;
 	int				error;
 
-	threads = (pthread_t *)malloc(sizeof(pthread_t) * manager->philo_cnt);
+	threads = (pthread_t *)malloc(sizeof(pthread_t) * manager->config->philo_cnt);
 	if (threads == NULL)
 		return (ENOMEM);
-	error = ph_create_philo_threads(threads, philos, manager->philo_cnt);
+	error = ph_create_philo_threads(threads, philos, manager->config->philo_cnt);
 	if (error != 0)
 		return (free(threads), error);
 	index = 0;
-	while (index < manager->philo_cnt)
+	while (index < manager->config->philo_cnt)
 		pthread_join(threads[index++], NULL);
 	free(threads);
 	return (0);

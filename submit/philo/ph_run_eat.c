@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:01:13 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/18 12:33:58 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/18 17:17:55 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ph_run_eat(t_philosopher *philo)
 	pthread_mutex_unlock(&philo->lock);
 	ph_append_log(philo, PH_EAT);
 	philo->is_eating = true;
-	ph_msleep_philo(philo->manager->time_to_eat, philo);
+	ph_msleep_philo(philo->manager->config->time_to_eat, philo);
 	untake_fork(philo);
 	philo->eat_cnt += 1;
 	gettimeofday(&philo->last_eat, NULL);
@@ -41,7 +41,7 @@ t_philosopher	*get_take_first_fork_philo(t_philosopher *philo)
 	t_philosopher	*first_take_philo;
 	t_philosopher	*right_fork_philo;
 
-	right_no = (philo->no) % philo->manager->philo_cnt;
+	right_no = (philo->no) % philo->manager->config->philo_cnt;
 	right_fork_philo = &(philo->manager->philos)[right_no];
 	if (philo->no % 2 == 1)
 		first_take_philo = right_fork_philo;
@@ -56,7 +56,7 @@ t_philosopher	*get_take_second_fork_philo(t_philosopher *philo)
 	t_philosopher	*second_take_philo;
 	t_philosopher	*right_fork_philo;
 
-	right_no = (philo->no) % philo->manager->philo_cnt;
+	right_no = (philo->no) % philo->manager->config->philo_cnt;
 	right_fork_philo = &(philo->manager->philos)[right_no];
 	if (philo->no % 2 == 1)
 		second_take_philo = philo;

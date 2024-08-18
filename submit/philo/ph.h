@@ -19,7 +19,7 @@
 int				ph_to_int(const char *str, int *num);
 void			ph_print_error(const char *str);
 int				ph_putstr(int fd, const char *str);
-int				ph_main(t_manager *manager);
+int				ph_main(t_ph_config *manager);
 int				ph_print_log(struct timeval *start_tvp, t_log_info *info);
 void			*ph_routine_philo(t_philosopher *philo);
 void			ph_destroy_philosophers(t_philosopher *philos, int cnt);

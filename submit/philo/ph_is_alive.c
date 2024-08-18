@@ -24,7 +24,7 @@ bool	ph_is_alive(t_philosopher *philo)
 	in_progress = manager->in_process;
 	if (in_progress == true)
 	{
-		timeradd(&philo->last_eat, &manager->die_tv, &added_tv);
+		timeradd(&philo->last_eat, &manager->config->die_tv, &added_tv);
 		if (timercmp(&added_tv, &manager->now, <))
 		{
 			ph_append_log(philo, PH_DIE);

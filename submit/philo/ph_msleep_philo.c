@@ -24,7 +24,7 @@ int	ph_msleep_philo(unsigned int msec, t_philosopher *philo)
 		return (ph_msleep(msec, philo));
 	msec_tv = ph_msectotimeval(msec);
 	gettimeofday(&now, NULL);
-	timeradd(&philo->last_eat, &philo->manager->die_tv, &die_time);
+	timeradd(&philo->last_eat, &philo->manager->config->die_tv, &die_time);
 	timeradd(&now, &msec_tv, &after_time);
 	if (timercmp(&die_time, &after_time, <))
 		return (ph_tvsleep_until(&die_time, philo));

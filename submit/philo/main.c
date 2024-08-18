@@ -22,24 +22,21 @@ void	ph_print_help(void)
 
 int	main(int argc, char *argv[])
 {
-	t_manager	manager;
+	t_ph_config	config;
 	int			result;
 
 	if (argc != 5 && argc != 6)
 		return (ph_print_help(), 1);
-	memset(&manager, 0, sizeof(t_manager));
-	if (ph_to_int(argv[1], &manager.philo_cnt) != 0
-		|| ph_to_int(argv[2], &manager.time_to_die) != 0
-		|| ph_to_int(argv[3], &manager.time_to_eat) != 0
-		|| ph_to_int(argv[4], &manager.time_to_sleep) != 0
-		|| (argc == 6 && ph_to_int(argv[5], &manager.must_eat_times) != 0))
+	memset(&config, 0, sizeof(t_ph_config));
+	if (ph_to_int(argv[1], &config.philo_cnt) != 0
+		|| ph_to_int(argv[2], &config.time_to_die) != 0
+		|| ph_to_int(argv[3], &config.time_to_eat) != 0
+		|| ph_to_int(argv[4], &config.time_to_sleep) != 0
+		|| (argc == 6 && ph_to_int(argv[5], &config.must_eat_times) != 0))
 		return (ph_print_error("Error: arg format.\n"), ph_print_help(), 1);
 	if (argc != 6)
-		manager.must_eat_times = -1;
-	manager.action_queue = ph_new_queue(manager.philo_cnt * 2);
-	if (manager.action_queue == NULL)
-		return (1);
-	result = ph_main(&manager);
-	ph_destroy_queue(manager.action_queue);
+		config.must_eat_times = -1;
+	config.die_tv = ph_msectotimeval(config.time_to_die);
+	result = ph_main(&config);
 	return (result);
 }

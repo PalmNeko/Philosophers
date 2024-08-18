@@ -18,8 +18,8 @@ void	*ph_routine_philo(t_philosopher *philo)
 	bool	in_process;
 
 	cnt = 0;
-	while (philo->manager->must_eat_times == -1
-		|| cnt < philo->manager->must_eat_times)
+	while (philo->manager->config->must_eat_times == -1
+		|| cnt < philo->manager->config->must_eat_times)
 	{
 		ph_run_think(philo);
 		ph_run_eat(philo);
