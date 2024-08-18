@@ -14,52 +14,43 @@
 #include <stdio.h>
 #include <unistd.h>
 
-void	ph_notify_to_manager(t_philosopher *philo, t_philo_action action);
-bool	ph_is_alive2(t_philosopher *philo);
+bool	ph_is_alive2(t_philosopher *philo, struct timeval *now);
+void	ph_print_log_with_mutex(t_philosopher *philo, t_philo_action action);
 
 void	ph_append_log(t_philosopher *philo, t_philo_action action)
 {
-		t_action_queue	*queue;
-	t_manager		*manager;
+	static pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER;
+	struct timeval			now;
+	t_manager				*manager;
 
-	queue = philo->manager->action_queue;
 	manager = philo->manager;
-	pthread_mutex_lock(&manager->lock);
-	pthread_mutex_lock(&queue->lock);
-	while ((queue->size >= queue->max_size - queue->max_size / 2)
-		&& manager->in_process)
+	pthread_mutex_lock(&mutex);
+	pthread_mutex_lock(&philo->lock);
+	pthread_mutex_lock(&philo->manager->lock);
+	gettimeofday(&now, NULL);
+	if (manager->in_process && ph_is_alive2(philo, &now) == false)
 	{
-		pthread_mutex_unlock(&queue->lock);
-		pthread_mutex_unlock(&manager->lock);
-		usleep(0);
-		pthread_mutex_lock(&manager->lock);
-		pthread_mutex_lock(&queue->lock);
+		ph_print_log(&philo->manager->start, &(t_log_info){.action = PH_DIE, .no = philo->no, .tv = now});
+		manager->in_process = false;
 	}
-	if (manager->in_process)
-	{
-		if (ph_is_alive2(philo) == false)
-		{
-			manager->in_process = false;
-			ph_enqueue(queue, philo->no, PH_DIE);
-		}
-		ph_enqueue(queue, philo->no, action);
-	}
-	pthread_mutex_unlock(&queue->lock);
-	pthread_mutex_unlock(&manager->lock);
+	if (manager->in_process == true)
+		ph_print_log(&philo->manager->start, &(t_log_info){.action = action, .no = philo->no, .tv = now});
+	pthread_mutex_unlock(&mutex);
+	pthread_mutex_unlock(&philo->lock);
+	pthread_mutex_unlock(&philo->manager->lock);
 }
 
-bool	ph_is_alive2(t_philosopher *philo)
+bool	ph_is_alive2(t_philosopher *philo, struct timeval *now)
 {
 	struct timeval	added_tv;
-	struct timeval	now;
 	t_manager		*manager;
 
 	manager = philo->manager;
 	if (philo->in_process == true)
 	{
 		timeradd(&philo->last_eat, &manager->config->die_tv, &added_tv);
-		gettimeofday(&now, NULL);
-		if (timercmp(&added_tv, &now, <))
+		gettimeofday(now, NULL);
+		if (timercmp(&added_tv, now, <))
 			return (false);
 	}
 	else
