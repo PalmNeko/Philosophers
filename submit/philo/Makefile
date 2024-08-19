@@ -8,7 +8,7 @@ OBJS        = $(SRC:.c=.o)
 DEPS        = $(SRC:.c=.d)
 CACHE_DIR   = cache
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -MMD -MP -O3
+CFLAGS      = -Wall -Wextra -Werror -MMD -MP
 
 all: $(NAME)
 
