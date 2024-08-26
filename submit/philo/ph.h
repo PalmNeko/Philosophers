@@ -27,7 +27,6 @@ int				ph_create_philo_threads(
 					pthread_t *threads, t_philosopher *philos, int cnt);
 void			*ph_routine_philo(t_philosopher *philo);
 
-int				ph_msleep(unsigned int msec, t_philosopher *manager);
 void			ph_print_action(t_philosopher *philo, t_philo_action action);
 void			ph_run_think(t_philosopher *philo);
 void			ph_run_eat(t_philosopher *philo);

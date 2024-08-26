@@ -6,7 +6,7 @@
 /*   By: tookuyam <tookuyam@student.42tokyo.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 11:01:13 by tookuyam          #+#    #+#             */
-/*   Updated: 2024/08/19 01:11:15 by tookuyam         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:21:12 by tookuyam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,12 @@ void	ph_run_eat(t_philosopher *philo)
 	take_fork(philo);
 	pthread_mutex_lock(&philo->lock);
 	philo->eating_order = false;
+	gettimeofday(&philo->last_eat, NULL);
 	pthread_mutex_unlock(&philo->lock);
 	ph_print_action(philo, PH_EAT);
-	philo->is_eating = true;
 	ph_msleep_philo(philo->manager->config->time_to_eat, philo);
 	untake_fork(philo);
 	philo->eat_cnt += 1;
-	gettimeofday(&philo->last_eat, NULL);
-	philo->is_eating = false;
 	usleep(0);
 }
 
