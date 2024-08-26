@@ -39,9 +39,6 @@ int	ph_init_manager(t_manager *manager, t_ph_config *config)
 	t_philosopher	*philos;
 
 	memset(manager, 0, sizeof(t_manager));
-	manager->action_queue = ph_new_queue(config->philo_cnt * 2);
-	if (manager->action_queue == NULL)
-		return (ENOMEM);
 	pthread_mutex_init(&manager->lock, NULL);
 	gettimeofday(&manager->start, NULL);
 	manager->config = config;
@@ -58,17 +55,13 @@ void	ph_finalize_manager(t_manager *manager)
 {
 	pthread_mutex_destroy(&manager->lock);
 	ph_destroy_philosophers(manager->philos, manager->config->philo_cnt);
-	ph_destroy_queue(manager->action_queue);
 }
 
 int	ph_start(t_manager *manager, t_philosopher *philos)
 {
-	pthread_t		print_thread;
 	pthread_t		update_thread;
 	int				error;
 
-	pthread_create(&print_thread, NULL,
-		(void *(*)(void *))ph_routine_print, manager);
 	pthread_create(&update_thread, NULL,
 		(void *(*)(void *))ph_routine_update_manager, manager);
 	error = ph_philo_start(manager, philos);
@@ -77,7 +70,6 @@ int	ph_start(t_manager *manager, t_philosopher *philos)
 	pthread_mutex_lock(&manager->lock);
 	manager->in_process = false;
 	pthread_mutex_unlock(&manager->lock);
-	pthread_join(print_thread, NULL);
 	pthread_join(update_thread, NULL);
 	return (0);
 }
