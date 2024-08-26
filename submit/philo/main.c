@@ -14,11 +14,8 @@
 #include <unistd.h>
 #include <string.h>
 
-void	ph_print_help(void)
-{
-	ph_putstr(2, "usage: philo philo/fork die eat sleep [eat_times]\n");
-	return ;
-}
+void	ph_print_help(void);
+int		ph_to_int(const char *str, int *num);
 
 int	main(int argc, char *argv[])
 {
@@ -39,4 +36,39 @@ int	main(int argc, char *argv[])
 	config.die_tv = ph_msectotimeval(config.time_to_die);
 	result = ph_main(&config);
 	return (result);
+}
+
+void	ph_print_help(void)
+{
+	ph_putstr(2, "usage: philo philo/fork die eat sleep [eat_times]\n");
+	return ;
+}
+
+/**
+ * @return
+ * 0 if success.
+ * -1 if overflow.
+ * -2 if unexpected token.
+ */
+int	ph_to_int(const char *str, int *num)
+{
+	int	tmp;
+
+	if (*str == '\0')
+		return (-2);
+	*num = 0;
+	while ('0' <= *str && *str <= '9')
+	{
+		if (*num > INT_MAX / 10)
+			return (-1);
+		*num *= 10;
+		tmp = *str - '0';
+		if (*num > INT_MAX - tmp)
+			return (-1);
+		*num += tmp;
+		str++;
+	}
+	if (*str != '\0')
+		return (-2);
+	return (0);
 }
