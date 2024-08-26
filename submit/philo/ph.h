@@ -33,8 +33,6 @@ void			ph_run_eat(t_philosopher *philo);
 void			ph_run_sleep(t_philosopher *philo);
 void			*ph_routine_update_manager(t_manager *manager);
 struct timeval	ph_msectotimeval(unsigned int timesec);
-int				ph_wait_once(struct timeval *nowtvp, struct timeval *endtvp);
-int				ph_tvsleep_until(struct timeval *endtime, t_philosopher *philo);
 int				ph_msleep_philo(unsigned int msec, t_philosopher *philo);
 void			ph_wait_until_eatable(t_philosopher *philo);
 t_philosopher	*ph_generate_philosophers(t_manager *manager);
