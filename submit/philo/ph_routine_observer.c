@@ -21,6 +21,7 @@ void	*ph_routine_observer(t_manager *manager)
 	int				index;
 	t_philosopher	*philo;
 	struct timeval	now;
+	bool			in_process;
 
 	while (1)
 	{
@@ -46,6 +47,11 @@ void	*ph_routine_observer(t_manager *manager)
 			pthread_mutex_unlock(&philo->lock);
 			index++;
 		}
+		pthread_mutex_lock(&manager->lock);
+		in_process = manager->in_process;
+		pthread_mutex_unlock(&manager->lock);
+		if (in_process == false)
+			break ;
 	}
 	return (NULL);
 }
@@ -73,14 +79,9 @@ bool	ph_is_alive(t_philosopher *philo, struct timeval *now)
 	t_manager		*manager;
 
 	manager = philo->manager;
-	if (philo->in_process == true)
-	{
-		timeradd(&philo->last_eat, &manager->config->die_tv, &added_tv);
-		gettimeofday(now, NULL);
-		if (timercmp(&added_tv, now, <))
-			return (false);
-	}
-	else
+	timeradd(&philo->last_eat, &manager->config->die_tv, &added_tv);
+	gettimeofday(now, NULL);
+	if (timercmp(&added_tv, now, <))
 		return (false);
 	return (true);
 }
