@@ -60,10 +60,13 @@ void	ph_finalize_manager(t_manager *manager)
 int	ph_start(t_manager *manager, t_philosopher *philos)
 {
 	pthread_t		update_thread;
+	pthread_t		observer_tid;
 	int				error;
 
 	pthread_create(&update_thread, NULL,
 		(void *(*)(void *))ph_routine_update_manager, manager);
+	pthread_create(&observer_tid, NULL,
+		(void *(*)(void *))ph_routine_observer, manager);
 	error = ph_philo_start(manager, philos);
 	if (error != 0)
 		return (error);
@@ -71,6 +74,7 @@ int	ph_start(t_manager *manager, t_philosopher *philos)
 	manager->in_process = false;
 	pthread_mutex_unlock(&manager->lock);
 	pthread_join(update_thread, NULL);
+	pthread_join(observer_tid, NULL);
 	return (0);
 }
 
