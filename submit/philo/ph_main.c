@@ -17,7 +17,7 @@
 #include <errno.h>
 
 t_philosopher	*ph_generate_philosophers(t_manager *manager);
-int				ph_start(t_manager *manager, t_philosopher *philos);
+int				ph_launch(t_manager *manager, t_philosopher *philos);
 int				ph_philo_start(t_manager *manager, t_philosopher *philos);
 int				ph_init_manager(t_manager *manager, t_ph_config *config);
 void			ph_finalize_manager(t_manager *manager);
@@ -29,7 +29,7 @@ int	ph_main(t_ph_config *config)
 
 	if (ph_init_manager(&manager, config) != 0)
 		return (1);
-	error = ph_start(&manager, manager.philos);
+	error = ph_launch(&manager, manager.philos);
 	ph_finalize_manager(&manager);
 	return (error);
 }
@@ -56,7 +56,7 @@ void	ph_finalize_manager(t_manager *manager)
 	ph_destroy_philosophers(manager->philos, manager->config->philo_cnt);
 }
 
-int	ph_start(t_manager *manager, t_philosopher *philos)
+int	ph_launch(t_manager *manager, t_philosopher *philos)
 {
 	pthread_t		update_thread;
 	pthread_t		observer_tid;
