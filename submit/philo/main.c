@@ -25,6 +25,8 @@ int	main(int argc, char *argv[])
 
 	if (argc != 5 && argc != 6)
 		return (ph_print_help(), 1);
+	if (argc == 2)
+		return (ph_print_error("Error: need at least 2 philosophers"), 1);
 	memset(&config, 0, sizeof(t_ph_config));
 	if (ph_to_int(argv[1], &config.philo_cnt) != 0
 		|| ph_to_int(argv[2], &config.time_to_die) != 0
