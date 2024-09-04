@@ -37,7 +37,6 @@ struct s_ph_config
 struct	s_ph_manager
 {
 	struct timeval	start;
-	struct timeval	now;
 	int				target_no;
 	t_ph_config		*config;
 	t_action_queue	*action_queue;

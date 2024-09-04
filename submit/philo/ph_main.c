@@ -43,7 +43,6 @@ int	ph_init_manager(t_manager *manager, t_ph_config *config)
 	gettimeofday(&manager->start, NULL);
 	manager->config = config;
 	manager->in_process = true;
-	gettimeofday(&manager->now, NULL);
 	philos = ph_generate_philosophers(manager);
 	if (philos == NULL)
 		return (ph_finalize_manager(manager), ENOMEM);

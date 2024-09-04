@@ -28,7 +28,6 @@ void	*ph_routine_update_manager(t_manager *manager)
 	{
 		pthread_mutex_lock(&manager->lock);
 		in_progress = manager->in_process;
-		gettimeofday(&manager->now, NULL);
 		pthread_mutex_unlock(&manager->lock);
 		if (in_progress == false)
 			break ;
