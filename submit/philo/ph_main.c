@@ -62,19 +62,19 @@ int	ph_launch(t_manager *manager, t_philosopher *philos)
 	pthread_t		observer_tid;
 	int				error;
 
-	pthread_create(&update_thread, NULL,
-		(void *(*)(void *))ph_routine_update_manager, manager);
-	pthread_create(&observer_tid, NULL,
-		(void *(*)(void *))ph_routine_observer, manager);
-	error = ph_philo_start(manager, philos);
+	error = pthread_create(&update_thread, NULL,
+			(void *(*)(void *))ph_routine_update_manager, manager);
 	if (error != 0)
 		return (error);
-	pthread_mutex_lock(&manager->lock);
-	manager->in_process = false;
-	pthread_mutex_unlock(&manager->lock);
+	error = pthread_create(&observer_tid, NULL,
+			(void *(*)(void *))ph_routine_observer, manager);
+	if (error != 0)
+		return (ph_set_end(manager), pthread_join(update_thread, NULL), error);
+	error = ph_philo_start(manager, philos);
+	ph_set_end(manager);
 	pthread_join(update_thread, NULL);
 	pthread_join(observer_tid, NULL);
-	return (0);
+	return (error);
 }
 
 int	ph_philo_start(t_manager *manager, t_philosopher *philos)
@@ -90,7 +90,7 @@ int	ph_philo_start(t_manager *manager, t_philosopher *philos)
 	error = ph_create_philo_threads(
 			threads, philos, manager->config->philo_cnt);
 	if (error != 0)
-		return (free(threads), error);
+		ph_set_end(manager);
 	index = 0;
 	while (index < manager->config->philo_cnt)
 		pthread_join(threads[index++], NULL);
