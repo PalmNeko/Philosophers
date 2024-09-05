@@ -30,6 +30,8 @@ int	main(int argc, char *argv[])
 		return (ph_print_error("Error: arg format.\n"), ph_print_help(), 1);
 	if (config.philo_cnt < 2)
 		return (ph_print_error("Error: need at least 2 philosophers\n"), 1);
+	if (config.must_eat_times == 0)
+		return (0);
 	result = ph_main(&config);
 	return (result);
 }
