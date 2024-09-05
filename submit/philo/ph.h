@@ -16,7 +16,8 @@
 # include <sys/time.h>
 # include "ph_types.h"
 
-int				ph_create_philo_threads(pthread_t *threads, t_philosopher *philos, int cnt);
+int				ph_create_philo_threads(
+					pthread_t *threads, t_philosopher *philos, int cnt);
 int				ph_main(t_ph_config *manager);
 int				ph_msleep_philo(unsigned int msec, t_philosopher *philo);
 int				ph_print_log(struct timeval *start_tvp, t_log_info *info);
