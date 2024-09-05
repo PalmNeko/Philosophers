@@ -42,7 +42,7 @@ void	ph_print_help(void)
 	return ;
 }
 
-int		ph_init_config(int argc, char *argv[], t_ph_config *config)
+int	ph_init_config(int argc, char *argv[], t_ph_config *config)
 {
 	memset(config, 0, sizeof(t_ph_config));
 	if (ph_to_int(argv[1], &config->philo_cnt) != 0

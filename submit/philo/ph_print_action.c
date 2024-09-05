@@ -28,7 +28,8 @@ void	ph_print_action(t_philosopher *philo, t_philo_action action)
 	pthread_mutex_lock(&philo->manager->lock);
 	gettimeofday(&now, NULL);
 	if (manager->in_process == true)
-		ph_print_log(&philo->manager->start, &(t_log_info){.action = action, .no = philo->no, .tv = now});
+		ph_print_log(&philo->manager->start,
+			&(t_log_info){.action = action, .no = philo->no, .tv = now});
 	pthread_mutex_unlock(&mutex);
 	pthread_mutex_unlock(&philo->manager->lock);
 }

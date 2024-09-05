@@ -15,38 +15,15 @@
 
 void	ph_close_philos(t_manager *manager);
 bool	ph_is_alive(t_philosopher *philo, struct timeval *now);
+void	ph_check_all_philo(t_manager *manager);
 
 void	*ph_routine_observer(t_manager *manager)
 {
-	int				index;
-	t_philosopher	*philo;
-	struct timeval	now;
 	bool			in_process;
 
 	while (1)
 	{
-		index = 0;
-		while (index < manager->config->philo_cnt)
-		{
-			philo = &manager->philos[index];
-			pthread_mutex_lock(&philo->lock);
-			gettimeofday(&now, NULL);
-			if (ph_is_alive(philo, &now) == false)
-			{
-				philo->in_process = false;
-				pthread_mutex_lock(&manager->lock);
-				if (manager->in_process == true)
-					ph_print_log(&manager->start, &(t_log_info){
-						.action = PH_DIE, .no = philo->no, .tv = now});
-				manager->in_process = false;
-				pthread_mutex_unlock(&manager->lock);
-				pthread_mutex_unlock(&philo->lock);
-				ph_close_philos(manager);
-				return (NULL);
-			}
-			pthread_mutex_unlock(&philo->lock);
-			index++;
-		}
+		ph_check_all_philo(manager);
 		pthread_mutex_lock(&manager->lock);
 		in_process = manager->in_process;
 		pthread_mutex_unlock(&manager->lock);
@@ -54,6 +31,35 @@ void	*ph_routine_observer(t_manager *manager)
 			break ;
 	}
 	return (NULL);
+}
+
+void	ph_check_all_philo(t_manager *manager)
+{
+	int				index;
+	t_philosopher	*philo;
+	struct timeval	now;
+
+	index = 0;
+	while (index < manager->config->philo_cnt)
+	{
+		philo = &manager->philos[index++];
+		pthread_mutex_lock(&philo->lock);
+		gettimeofday(&now, NULL);
+		if (ph_is_alive(philo, &now) == false)
+		{
+			philo->in_process = false;
+			pthread_mutex_lock(&manager->lock);
+			if (manager->in_process == true)
+				ph_print_log(&manager->start, &(t_log_info){
+					.action = PH_DIE, .no = philo->no, .tv = now});
+			manager->in_process = false;
+			pthread_mutex_unlock(&manager->lock);
+			pthread_mutex_unlock(&philo->lock);
+			ph_close_philos(manager);
+			return ;
+		}
+		pthread_mutex_unlock(&philo->lock);
+	}
 }
 
 void	ph_close_philos(t_manager *manager)

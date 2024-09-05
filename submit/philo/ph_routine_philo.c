@@ -24,7 +24,7 @@ void	*ph_routine_philo(t_philosopher *philo)
 		ph_run_think(philo);
 		ph_run_eat(philo);
 		if (philo->manager->config->must_eat_times != -1
-			&& philo->eat_cnt >=philo->manager->config->must_eat_times)
+			&& philo->eat_cnt >= philo->manager->config->must_eat_times)
 			break ;
 		ph_run_sleep(philo);
 		pthread_mutex_lock(&philo->lock);
